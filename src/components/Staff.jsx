@@ -103,7 +103,7 @@ export default function Staff() {
                 <tr>
                   <td>Fatma Saeed Ahmed</td>
                 </tr>
-                
+
               </table>
             </div>
           </div>
@@ -179,14 +179,7 @@ const Section = styled.section`
     h2{
       font-weight: 400;
     }
-  }
-  .line{
-    width: 90%;
-    margin: 1rem auto;
-    border: 0.3px solid #b9b9b9;
-    border-radius: 1rem;
-  }
-  .top{
+    .top{
     padding: 1rem;
     border-bottom: 1px solid #888888;
   }
@@ -229,7 +222,23 @@ const Section = styled.section`
         }
     }
   }
+  }
+
+  
   @media screen and (min-width: 280px) and (max-width: 1080px){
     margin-left: 0;
+
+  .container{ 
+  .down{
+    .staffInfo{
+      flex-direction: column;
+      gap: 1rem;
+      table {
+      width: 100%; 
+      }   
+      }
+    }
+  }
+    
   }
 `;
