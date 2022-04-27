@@ -1,201 +1,128 @@
 import React from "react";
-
 import styled from "styled-components";
-import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
-import { BiBed } from "react-icons/bi";
 
+import { PieChart, Pie, Cell } from "recharts";
+
+
+const rooms = [
+  { name: 'Closed', value: 101 },
+  { name: 'Occupied', value: 635 },
+  { name: 'Free', value: 262 },
+];
+
+const patients = [
+  { name: 'Dangerous', value: 95 },
+  { name: 'Under Control', value: 390 },
+  { name: 'Stable', value: 510 },
+];
+const RCOLORS = ['#ff2828', '#0088FE', '#00C49F'];
+const PCOLORS = ['#ff2828', '#a1df3f', '#00C49F'];
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
 
 export default function Analytics() {
+
   return (
     <Section>
       <div className="container">
 
         <div className="top">
-          <h2>Rooms</h2>
+          <h2>Analytics</h2>
         </div>
-
+        <div className="date">
+          <div className="today active">Today</div>
+          <div className="week">This week</div>
+          <div className="month">This month</div>
+          <div className="year">This year</div>
+        </div>
         <div className="down">
-          <div className="rooms">
-            <div className="address">
-              <h3 className="name">A - Third floor </h3>
-              <IoMdArrowDropdown />
+          <div className="char">
+            <div className="charTitle">
+              <h1>Rooms</h1>
             </div>
-
-            <div className="roomInfo">
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds close">
-                <p>301</p>
-                <BiBed />
-                <p>Close</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-
+            <div className="charGraph">
+              <PieChart width={250} height={250}>
+                <Pie
+                  data={rooms}
+                  cx={120}
+                  cy={120}
+                  labelLine={false}
+                  label={renderCustomizedLabel}
+                  outerRadius={120}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {rooms.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={RCOLORS[index % RCOLORS.length]} />
+                  ))}
+                </Pie>
+              </PieChart>
             </div>
-            <div className="line"></div>
+            <div className="charInfo">
+              <div>
+                <span className={rooms[0].name}></span>
+                <p>{rooms[0].name}</p>
+              </div>
+              <div>
+                <span className={rooms[1].name}></span>
+                <p>{rooms[1].name}</p>
+              </div>
+              <div>
+                <span className={rooms[2].name}></span>
+                <p>{rooms[2].name}</p>
+              </div>
+            </div>
           </div>
-
-
-          <div className="rooms">
-            <div className="address">
-              <h3 className="name">A - Forth floor </h3>
-              <IoMdArrowDropright />
+          <div className="char">
+            <div className="charTitle">
+              <h1>Patient</h1>
             </div>
-
-            <div className="roomInfo">
+            <div className="charGraph">
+              <PieChart width={250} height={250}>
+                <Pie
+                  data={patients}
+                  cx={120}
+                  cy={120}
+                  labelLine={false}
+                  label={renderCustomizedLabel}
+                  outerRadius={120}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {patients.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={PCOLORS[index % PCOLORS.length]} />
+                  ))}
+                </Pie>
+              </PieChart>
             </div>
-            <div className="line"></div>
-          </div>
-
-          <div className="rooms">
-            <div className="address">
-              <h3 className="name">B - First floor </h3>
-              <IoMdArrowDropdown />
+            <div className="charInfo">
+              <div>
+                <span className={patients[0].name}></span>
+                <p>{patients[0].name}</p>
+              </div>
+              <div>
+                <span className={patients[1].name}></span>
+                <p>{patients[1].name}</p>
+              </div>
+              <div>
+                <span className={patients[2].name}></span>
+                <p>{patients[2].name}</p>
+              </div>
             </div>
-
-            <div className="roomInfo">
-              <div className="beds free">
-                <p>101</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds free">
-                <p>101</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds close">
-                <p>101</p>
-                <BiBed />
-                <p>close</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>101</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-
-            </div>
-            <div className="line"></div>
           </div>
         </div>
+
       </div>
     </Section>
 
@@ -213,16 +140,10 @@ const Section = styled.section`
     display: flex;
     flex-direction: column;
     box-shadow: 1px 1px 5px #888888;
-    padding: 1rem;
+    padding: 2rem;
     h2{
       font-weight: 400;
     }
-  }
-  .line{
-    width: 90%;
-    margin: 1rem auto;
-    border: 0.3px solid #b9b9b9;
-    border-radius: 1rem;
   }
   .top{
     padding: 1rem;
@@ -230,43 +151,62 @@ const Section = styled.section`
     border-bottom: 1px solid #888888;
   }
 
-  .down{
+  .date{
     padding: 1rem;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    .today, .week, .month, .year{
+      border: 1px black solid;
+      border-radius: 3rem;
+      padding: 0.5rem 2rem;
+    }
+    .active{
+      color: white;
+      background-color: black;
+    }
+  }
+  .down{
+    padding: 1rem 2rem;
+    display: flex;
     justify-content: space-between;
-    .rooms{
-      .address{
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin: 1rem 0;
-        svg{
+    .char{
+      .charTitle{
+        padding: 1rem 1rem;
+        h1{
           font-size: 2rem;
+          font-weight: 500;
         }
       }
-      .roomInfo{
-        width: 90%;
+
+      .charInfo{
+        padding: 1rem 1rem;
         display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        margin: 0 auto;
-        .beds{
-            color: #888888;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            svg{
-            font-size: 4rem;
+        flex-direction: column;
+        gap: 1rem;
+        div{
+          display: flex;
+          justify-content: space-around;
+          span{
+            width: 5%;
+          }
+          p{
+            width: 80%;
+          }
+          .Closed, .Dangerous {
+            background-color: #ff2828;
+          }
+          .Occupied {
+            background-color: #0088FE;
+          }
+          .Free, .Stable {
+            background-color: #00C49F;
+          }
+          .Under{
+            background-color: #a1df3f;
+
           }
         }
-        .free{
-          color: green;
-        }
-        .close{
-          color: var(--red);
-        }
-  
       }
     }
   }
@@ -278,12 +218,12 @@ const Section = styled.section`
   @media screen and (min-width: 280px) and (max-width: 1080px){
     margin-left: 0;
     .down{
-    .rooms{
-        .roomInfo{
-          justify-content: center;
-
-        }
-      }
-    }
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    
+  }
   }
 `;
