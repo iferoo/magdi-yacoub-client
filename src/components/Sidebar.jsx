@@ -156,7 +156,7 @@ const Section = styled.section`
       display: none;
     }
     .brand {
-      width: 60%;
+      width: 70%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -167,13 +167,14 @@ const Section = styled.section`
       background-color: #fff;
 
       span img {
-        width: 100px;
+        width: 80px;
       }
     }
     .links {
       display: flex;
       justify-content: flex-start;
       ul {
+        width: 70%;
         list-style-type: none;
         display: flex;
         flex-direction: column;
