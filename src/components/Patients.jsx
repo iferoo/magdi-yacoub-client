@@ -126,13 +126,13 @@ export default function Patients() {
               <div className="info">
                 <IoMdArrowDropright />
                 <p>
-                Documents
+                  Documents
                 </p>
               </div>
               <div className="info">
                 <IoMdArrowDropright />
                 <p>
-                Patient history
+                  Patient history
                 </p>
               </div>
             </div>
@@ -166,8 +166,8 @@ const Section = styled.section`
   .down{
     display: flex;
     justify-content: space-between;
-  }
-  .left{
+
+    .left{
     width: 30%;
     .search{
       display: flex;
@@ -275,13 +275,6 @@ const Section = styled.section`
         }
       }
     }
-    .line{
-      width: 80%;
-      margin: 0 auto;
-      border: 0.3px solid #b9b9b9;
-      border-radius: 1rem;
-    }
-
     .patientInfo{
       padding: 1rem 3rem;
       .Info{
@@ -324,10 +317,30 @@ const Section = styled.section`
           font-weight: 600;
         }
       }
+  }
+  
+    .line{
+      width: 80%;
+      margin: 0 auto;
+      border: 0.3px solid #b9b9b9;
+      border-radius: 1rem;
+    }
+
+    
     }
   }
 
   @media screen and (min-width: 280px) and (max-width: 1080px){
     margin-left: 0;
+    .down{
+      flex-direction: column;
+      gap: 2rem;
+      .left{
+        width: 100%;
+      }
+      .right{
+        width: 100%;
+      }
+    }
   }
 `;
