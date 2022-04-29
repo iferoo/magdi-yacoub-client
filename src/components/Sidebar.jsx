@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function Sidebar() {
-  const [currentLink, setCurrentLink] = useState(0);
+  const [currentLink, setCurrentLink] = useState(1);
   const [navbarState, setNavbarState] = useState(false);
   const html = document.querySelector('html');
   html.addEventListener('click', () => setNavbarState(false))

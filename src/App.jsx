@@ -5,10 +5,10 @@ import {
   Route,
 } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import Patients from "./components/Patients";
-import Rooms from "./components/Rooms";
-import Staff from './components/Staff'
-import Analytics from './components/Analytics'
+import Patients from "./pages/Patients";
+import Rooms from "./pages/Rooms";
+import Staff from './pages/Staff'
+import Analytics from './pages/Analytics'
 import SignIn from "./components/SignIn";
 
 export default function App() {
@@ -22,7 +22,6 @@ export default function App() {
           <Route exact path="/rooms" element={<><Sidebar/><Rooms/></>}/>
           <Route exact path="/staff" element={<><Sidebar/><Staff/></>}/>
           <Route exact path="/analytics" element={<><Sidebar/><Analytics/></>}/>
-
         </Routes>
       </Router>
     </div>
