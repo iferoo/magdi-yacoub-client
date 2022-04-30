@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { IoMdArrowDropright } from "react-icons/io";
 import { useForm } from 'react-hook-form';
 
 
@@ -7,7 +8,7 @@ export default function EditPatient() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
     console.log(errors);
-    
+
     return (
         <Section>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -40,13 +41,10 @@ export default function EditPatient() {
                             <input type="datetime" placeholder="Register Date" {...register("Register Date", { required: true })} />
                         </div>
                         <div className="rightInfo">
-                            <label htmlFor="branch">Branch</label>
                             <select {...register("Branch", { required: true })}>
                                 <option value="Aswan Sail">Aswan Sail</option>
                             </select>
-                            <label htmlFor="nurse">Nurse</label>
                             <input type="text" placeholder="Nurse" {...register("Nurse", { required: true })} />
-                            <label htmlFor="doctor">Doctor</label>
                             <input type="text" placeholder="Doctor" {...register("Doctor", { required: true })} />
                         </div>
                     </div>
@@ -56,22 +54,37 @@ export default function EditPatient() {
                     <h3 className="name">Medical Conditon</h3>
                     <div className="Info">
                         <div className="leftInfo">
-                            <label htmlFor="disease">Disease</label>
                             <input type="text" placeholder="Disease" {...register("Disease", { required: true })} />
-                            <label htmlFor="history">History</label>
                             <input type="datetime" placeholder="History" {...register("History", {})} />
-                            <label htmlFor="otherDiseases">Other Diseases</label>
                             <input type="text" placeholder="Other Diseases" {...register("Other Diseases", {})} />
                         </div>
                         <div className="rightInfo">
-                            <label htmlFor="diabeyic">Diabeyic</label>
-                            <input type="checkbox" placeholder="Diabeyic" {...register("Diabeyic", {})} />
-                            <label htmlFor="smoker">Smoker</label>
+                            <input type="checkbox" placeholder="Diabeyic" {...register("Diabeyic", { required: true })} />
                             <input type="checkbox" placeholder="Smoker" {...register("Smoker", {})} />
                         </div>
                     </div>
                 </div>
                 <div className="line"></div>
+                <div className="other">
+                    <div className="info">
+                        <IoMdArrowDropright />
+                        <p>
+                            Post examination results
+                        </p>
+                    </div>
+                    <div className="info">
+                        <IoMdArrowDropright />
+                        <p>
+                            Documents
+                        </p>
+                    </div>
+                    <div className="info">
+                        <IoMdArrowDropright />
+                        <p>
+                            Patient history
+                        </p>
+                    </div>
+                </div>
                 <div className="submit"><input type="submit" value="Save" /></div>
             </form>
         </Section>
@@ -79,26 +92,9 @@ export default function EditPatient() {
 }
 
 const Section = styled.section`
+    
     width: 100%;
     box-shadow: 0px 0px 1px 1px #888888;
-    .line{
-      width: 80%;
-      margin: 0 auto;
-      border: 0.3px solid #b9b9b9;
-      border-radius: 1rem;
-    }    
-    
-    input, select{
-          width: 80%;
-          padding: 0.5rem;
-          
-          &::placeholder {
-          }
-          &:focus {
-            outline: none;
-            
-            }
-          }
     .patientProfile{
       padding: 1rem;
       display: flex;
@@ -162,30 +158,27 @@ const Section = styled.section`
         }
       }
     }
-    .submit{    
-        width: 90%;
-        margin: 0 auto;
-        input {
-        width: 100%;
-        margin: 0.5rem auto ;
-        cursor: pointer;
-        color: #fff;
-        text-align: center;
-        background-color: #0d6efd;
-        border-color: #0d6efd;
-        font-size: 1rem;
-        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-        border: none;
-        border-radius: 0.2rem;
-        padding: 0.5rem;
-        &:hover{
-        color: #fff;
-        background-color: #0b5ed7;
-        border-color: #0a58ca;
+    .other{
+      padding: 1rem 3rem;
+      .info{
+        display: flex;
+        align-items: center;
+        svg{
+          font-size: 1.5rem;
+        }
+        p{
+          font-weight: 600;
+        }
       }
-    }
-}
-   
+  }
+  
+    .line{
+      width: 80%;
+      margin: 0 auto;
+      border: 0.3px solid #b9b9b9;
+      border-radius: 1rem;
+    }    
+    
     @media screen and (min-width: 280px) and (max-width: 1080px){
       flex-direction: column;
       gap: 2rem;

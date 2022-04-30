@@ -10,6 +10,10 @@ import Rooms from "./pages/Rooms";
 import Staff from './pages/Staff'
 import Analytics from './pages/Analytics'
 import SignIn from "./components/SignIn";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function App() {
   return (
@@ -17,13 +21,14 @@ export default function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<SignIn/>} />
-          <Route exact path="/" element={<><Sidebar/><Patients/></>}/>
-          <Route exact path="/patients" element={<><Sidebar/><Patients/></>}/>
-          <Route exact path="/rooms" element={<><Sidebar/><Rooms/></>}/>
-          <Route exact path="/staff" element={<><Sidebar/><Staff/></>}/>
-          <Route exact path="/analytics" element={<><Sidebar/><Analytics/></>}/>
+          <Route path="/" element={<><Sidebar/><Patients/></>}/>
+          <Route path="/patients" element={<><Sidebar/><Patients/></>}/>
+          <Route path="/rooms" element={<><Sidebar/><Rooms/></>}/>
+          <Route path="/staff" element={<><Sidebar/><Staff/></>}/>
+          <Route path="/analytics" element={<><Sidebar/><Analytics/></>}/>
         </Routes>
       </Router>
+      <ToastContainer />
     </div>
   );
 }
