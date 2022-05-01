@@ -1,6 +1,8 @@
-import React, {  useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, Link, useLocation } from "react-router-dom";
+
 import styled from "styled-components";
+
 import { ImProfile } from "react-icons/im";
 import { FaBed } from "react-icons/fa";
 import { MdEngineering } from "react-icons/md";
@@ -8,26 +10,26 @@ import { BsFillChatTextFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useNavigate } from 'react-router-dom';
 
 
 export default function Sidebar() {
-  const [currentLink, setCurrentLink] = useState(1);
+  const { pathname } = useLocation();
+
   const [navbarState, setNavbarState] = useState(false);
+
   const html = document.querySelector('html');
   html.addEventListener('click', () => setNavbarState(false))
-  const navigate = useNavigate();
 
   return (
     <>
       <Section>
         <div className="top">
           <div className="responsive">
-            <div className="brand">
-              <span>
-                <img src="/assets/magdi-yacoub-logo.png" alt="logo" />
-              </span>
-            </div>
+            <Link className="brand" to="/">
+                <span>
+                  <img src="/assets/magdi-yacoub-logo.png" alt="logo" />
+                </span>
+            </Link>
             <div className="toggle">
               {navbarState ? (
                 <VscChromeClose onClick={() => setNavbarState(false)} />
@@ -43,57 +45,25 @@ export default function Sidebar() {
           </div>
 
           <div className={`links ${navbarState ? "showLinks" : ""}`}>
-            <ul>
-              <li
-                onClick={() => {
-                  setCurrentLink(1)
-                  navigate('/')
-                }}
-                className={currentLink === 1 ? "active" : ""}
-              >
-                <Link to="/">
-                  <ImProfile />
-                  <span> Patient</span>
-                </Link>
-              </li>
-              <li
-                onClick={() => {
-                  setCurrentLink(2)
-                  navigate('/rooms')
-                }}
-                className={currentLink === 2 ? "active" : ""}
-              >
-                <Link to="/rooms">
-                  <FaBed />
-                  <span> Rooms</span>
-                </Link>
-              </li>
-              <li
-                onClick={() => {
-                  setCurrentLink(3)
-                  navigate('/staff')
-                }}
-                className={currentLink === 3 ? "active" : ""}
-              >
-                <Link to="/staff">
-                  <MdEngineering />
-                  <span> Staff</span>
-                </Link>
-              </li>
-              <li
-                onClick={() => {
-                  setCurrentLink(4)
-                  navigate('/analytics')
-                }}
-                className={currentLink === 4 ? "active" : ""}
-              >
-                <Link to="/analytics">
-                  <BsFillChatTextFill />
-                  <span> Analytics</span>
-                </Link>
-              </li>
-            </ul>
+          <NavLink to="/">
+              <BsFillChatTextFill />
+              <span> Analytics</span>
+            </NavLink>
+            <NavLink to="/patients" className={`${pathname === '/edit-patient' || pathname === '/add-patient' ? 'active' : ''}`}>
+              <ImProfile />
+              <span> Patient</span>
+            </NavLink>
+            <NavLink to="/rooms">
+              <FaBed />
+              <span> Rooms</span>
+            </NavLink>
+            <NavLink to="/staff">
+              <MdEngineering />
+              <span> Staff</span>
+            </NavLink>
+            
           </div>
+
         </div>
 
 
@@ -146,27 +116,18 @@ const Section = styled.section`
         width: 80px;
       }
     }
+
+
     .links {
+      width: 70%;
       display: flex;
+      flex-direction: column ;
       justify-content: flex-start;
-      ul {
-        width: 70%;
-        list-style-type: none;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        li {
-          cursor: pointer;
-          padding: 1rem 1rem;
+      gap: 1rem;
+      a{
+            padding: 1rem 1rem;
           border-top-right-radius: 0.6rem;
           border-bottom-right-radius: 0.6rem;
-          &:hover {
-            background-color: var(--black);
-            a {
-              color: var(--white);
-            }
-          }
-          a {
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -175,15 +136,13 @@ const Section = styled.section`
             gap: 1rem;
             color: var(--black);
           }
-        }
-        .active {
+          .active {
           background-color: var(--black);
-          a {
-            color: var(--white);
-          }
+          color: var(--white);
         }
-      }
     }
+
+
     
   }
   .logout {
@@ -201,7 +160,6 @@ const Section = styled.section`
       align-items: center;
       justify-content: flex-start;
       text-decoration: none;
-      display: flex;
       gap: 0.5rem;
       color: var(--black);
     }
@@ -248,25 +206,27 @@ const Section = styled.section`
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        ul{
+        a{
           width: 50%;
           margin: 0 auto;
-          li{
-            border-radius: 0.6rem;
-            display: flex;
-            justify-content: center;
-          }
+          border-radius: 0.6rem;
+          display: flex;
+          justify-content: center;
         }
       }  
       .showLinks{
           position: static;
-         }
+      }
     }
     
     .logout{
       position: fixed;
       top: -15rem;
       margin: 1rem 0;
+      background-color: var(--red);
+      a{
+        color: var(--white);
+      }
         
       }
   .showLogout{
@@ -275,4 +235,5 @@ const Section = styled.section`
     }
   }
   
+
 `;

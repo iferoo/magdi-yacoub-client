@@ -3,199 +3,39 @@ import React from "react";
 import styled from "styled-components";
 import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
 import { BiBed } from "react-icons/bi";
+import { rooms } from "../components/rooms/data";
+import { useState } from "react";
 
 
 export default function Rooms() {
-
+  const [bedToggle, setBedToggle] = useState(0);
   return (
     <Section>
       <div className="container">
-
         <div className="top">
           <h2>Rooms</h2>
         </div>
 
         <div className="down">
-          <div className="rooms">
-            <div className="address">
-              <h3 className="name">A - Third floor </h3>
-              <IoMdArrowDropdown />
+          {rooms.map(room => (
+            <div className="rooms" key={room.id}>
+              <div className="address" >
+                <h3 className="name">{room.floorName} </h3>
+                {bedToggle == room.id ? <IoMdArrowDropdown onClick={() => setBedToggle(0)} /> : <IoMdArrowDropright onClick={() => setBedToggle(room.id)} />}
+
+              </div>
+              <div className={`roomInfo ${bedToggle != room.id ? 'hide' : ''}`} key={room.id + 1}>
+                {room.beds.map(bed => (
+                  <div key={bed.id} className={`beds ${bed.status}`} >
+                    <p>{bed.bedNumber}</p>
+                    <BiBed />
+                    <p>{bed.status}</p>
+                  </div>
+                ))}
+                <div className="line"></div>
+              </div>
             </div>
-
-            <div className="roomInfo">
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds close">
-                <p>301</p>
-                <BiBed />
-                <p>Close</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>301</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>301</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-
-            </div>
-            <div className="line"></div>
-          </div>
-
-
-          <div className="rooms">
-            <div className="address">
-              <h3 className="name">A - Forth floor </h3>
-              <IoMdArrowDropright />
-            </div>
-
-            <div className="roomInfo">
-            </div>
-            <div className="line"></div>
-          </div>
-
-          <div className="rooms">
-            <div className="address">
-              <h3 className="name">B - First floor </h3>
-              <IoMdArrowDropdown />
-            </div>
-
-            <div className="roomInfo">
-              <div className="beds free">
-                <p>101</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds free">
-                <p>101</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds close">
-                <p>101</p>
-                <BiBed />
-                <p>close</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds free">
-                <p>101</p>
-                <BiBed />
-                <p>free</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-              <div className="beds">
-                <p>101</p>
-                <BiBed />
-                <p>full</p>
-              </div>
-
-            </div>
-            <div className="line"></div>
-          </div>
+          ))}
         </div>
       </div>
     </Section>
@@ -245,6 +85,7 @@ const Section = styled.section`
         svg{
           font-size: 2rem;
         }
+        
       }
       .roomInfo{
         width: 90%;
@@ -267,8 +108,10 @@ const Section = styled.section`
         .close{
           color: var(--red);
         }
-  
       }
+      .hide{
+          display: none;
+        }
     }
   }
   

@@ -127,4 +127,10 @@ const Section = style.section`
   margin-bottom: 1rem !important;
 }
 }
+@media screen and (min-width: 280px) and (max-width: 1080px){
+  .SignIn {
+    box-shadow: none;
+
+  }
+}
 `
