@@ -1,22 +1,20 @@
 import React from "react";
-import {
-  Routes,
-  Route,
-} from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import Patients from "./pages/Patients";
-import Rooms from "./pages/Rooms";
-import Staff from './pages/Staff'
-import Analytics from './pages/Analytics'
-import SignIn from "./components/SignIn";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Routes, Route } from "react-router-dom";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import SearchPatient from "./components/patients/SearchPatient";
 import EditPatient from "./components/patients/EditPatient";
 import AddPatient from "./components/patients/AddPatient";
+
+import Patients from "./pages/PatientsPage";
+import Rooms from "./pages/RoomsPage";
+import Staff from "./pages/StaffPage";
+import Analytics from "./pages/AnalyticsPage";
+import SignIn from "./pages/LogInPage";
+
 import AppLayout from "./layout/AppLayout";
-
-
 
 export default function App() {
   return (

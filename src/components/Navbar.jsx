@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+
 import { BiSearch } from "react-icons/bi";
+
 export default function Navbar() {
   return (
     <Nav>
@@ -51,14 +53,13 @@ const Nav = styled.nav`
       }
       &:focus {
         outline: none;
-        
       }
     }
   }
-  @media screen and (min-width: 280px) and (max-width: 1080px){
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
     flex-direction: column;
-    .title{
-      span{
+    .title {
+      span {
         display: block;
         margin: 1rem 0;
       }

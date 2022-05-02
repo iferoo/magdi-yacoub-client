@@ -11,14 +11,13 @@ import { BiLogOut } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-
 export default function Sidebar() {
   const { pathname } = useLocation();
 
   const [navbarState, setNavbarState] = useState(false);
 
-  const html = document.querySelector('html');
-  html.addEventListener('click', () => setNavbarState(false))
+  const html = document.querySelector("html");
+  html.addEventListener("click", () => setNavbarState(false));
 
   return (
     <>
@@ -26,9 +25,9 @@ export default function Sidebar() {
         <div className="top">
           <div className="responsive">
             <Link className="brand" to="/">
-                <span>
-                  <img src="/assets/magdi-yacoub-logo.png" alt="logo" />
-                </span>
+              <span>
+                <img src="/assets/magdi-yacoub-logo.png" alt="logo" />
+              </span>
             </Link>
             <div className="toggle">
               {navbarState ? (
@@ -45,11 +44,18 @@ export default function Sidebar() {
           </div>
 
           <div className={`links ${navbarState ? "showLinks" : ""}`}>
-          <NavLink to="/">
+            <NavLink to="/">
               <BsFillChatTextFill />
               <span> Analytics</span>
             </NavLink>
-            <NavLink to="/patients" className={`${pathname === '/edit-patient' || pathname === '/add-patient' ? 'active' : ''}`}>
+            <NavLink
+              to="/patients"
+              className={`${
+                pathname === "/edit-patient" || pathname === "/add-patient"
+                  ? "active"
+                  : ""
+              }`}
+            >
               <ImProfile />
               <span> Patient</span>
             </NavLink>
@@ -61,11 +67,8 @@ export default function Sidebar() {
               <MdEngineering />
               <span> Staff</span>
             </NavLink>
-            
           </div>
-
         </div>
-
 
         <div className={`logout ${navbarState ? "showLogout" : ""}`}>
           <Link to="/login">
@@ -74,8 +77,6 @@ export default function Sidebar() {
           </Link>
         </div>
       </Section>
-
-
     </>
   );
 }
@@ -117,33 +118,29 @@ const Section = styled.section`
       }
     }
 
-
     .links {
       width: 70%;
       display: flex;
-      flex-direction: column ;
+      flex-direction: column;
       justify-content: flex-start;
       gap: 1rem;
-      a{
-            padding: 1rem 1rem;
-          border-top-right-radius: 0.6rem;
-          border-bottom-right-radius: 0.6rem;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            text-decoration: none;
-            display: flex;
-            gap: 1rem;
-            color: var(--black);
-          }
-          .active {
-          background-color: var(--black);
-          color: var(--white);
-        }
+      a {
+        padding: 1rem 1rem;
+        border-top-right-radius: 0.6rem;
+        border-bottom-right-radius: 0.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-decoration: none;
+        display: flex;
+        gap: 1rem;
+        color: var(--black);
+      }
+      .active {
+        background-color: var(--black);
+        color: var(--white);
+      }
     }
-
-
-    
   }
   .logout {
     margin: 1rem 0;
@@ -165,8 +162,7 @@ const Section = styled.section`
     }
   }
 
-  
-  @media screen and (min-width: 280px) and (max-width: 1080px){
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
     position: initial;
     width: 100%;
     height: max-content;
@@ -176,64 +172,60 @@ const Section = styled.section`
       align-items: center;
       justify-content: space-between;
       padding: 1rem 0;
-      
-      .responsive{
-        
+
+      .responsive {
         width: 100%;
         display: flex;
         justify-content: space-between;
-        .toggle{
+        .toggle {
           width: 10%;
           display: flex;
           align-items: center;
           justify-content: center;
           color: var(--black);
           z-index: 10;
-          svg{
+          svg {
             font-size: 1.4rem;
           }
         }
         .brand {
-        gap: 1rem;
-        width: 30%;
-        justify-content: center;
-      }
+          gap: 1rem;
+          width: 30%;
+          justify-content: center;
+        }
       }
 
-      .links{
+      .links {
         position: fixed;
         top: -20rem;
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        a{
+        a {
           width: 50%;
           margin: 0 auto;
           border-radius: 0.6rem;
           display: flex;
           justify-content: center;
         }
-      }  
-      .showLinks{
-          position: static;
+      }
+      .showLinks {
+        position: static;
       }
     }
-    
-    .logout{
+
+    .logout {
       position: fixed;
       top: -15rem;
       margin: 1rem 0;
       background-color: var(--red);
-      a{
+      a {
         color: var(--white);
       }
-        
-      }
-  .showLogout{
-    position: static;
-    top: 0rem;
+    }
+    .showLogout {
+      position: static;
+      top: 0rem;
     }
   }
-  
-
 `;
