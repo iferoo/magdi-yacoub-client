@@ -6,19 +6,23 @@ import styled from "styled-components";
 export default function PatientsPage() {
   const { pathname } = useLocation();
   const [activeLink, setActiveLink] = useState(1);
+
   const handleActiveLink = () => {
     pathname === "/patients/edit-patient"
       ? setActiveLink(2)
       : pathname === "/patients/add-patient"
-      ? setActiveLink(3)
+      ? setActiveLink(2)
       : setActiveLink(1);
   };
+
   useEffect(() => {
     handleActiveLink();
   });
+
   return (
     <Section>
       <div className="container">
+
         <div className="top">
           <h2>Patients</h2>
           <div>
@@ -27,27 +31,29 @@ export default function PatientsPage() {
               className={`${activeLink === 1 && "active"}`}
               onClick={() => setActiveLink(1)}
             >
-              Search
+              View
             </Link>
-            <Link
+            {/* <Link
               to="edit-patient"
               className={`${activeLink === 2 && "active"}`}
               onClick={() => setActiveLink(2)}
             >
               Edit
-            </Link>
+            </Link> */}
             <Link
               to="add-patient"
-              className={`${activeLink === 3 && "active"}`}
-              onClick={() => setActiveLink(3)}
+              className={`${activeLink === 2 && "active"}`}
+              onClick={() => setActiveLink(2)}
             >
               Add
             </Link>
           </div>
         </div>
+
         <div className="down">
           <Outlet />
         </div>
+        
       </div>
     </Section>
   );

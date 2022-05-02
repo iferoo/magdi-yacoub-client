@@ -16,7 +16,7 @@ export default function EditPatient() {
     <Section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="patientProfile">
-          <img src="/assets/ProfilePic.JPG" alt="patient" />
+          <img src="/assets/Patient.png" alt="patient" />
           <div className="profile">
             <label htmlFor="name">Name</label>
             <input

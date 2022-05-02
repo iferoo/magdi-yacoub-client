@@ -1,11 +1,110 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import styled from "styled-components";
+
+import { toast } from "react-toastify";
 
 import { BiSearch } from "react-icons/bi";
 import { IoMdArrowDropright } from "react-icons/io";
 
+import { patients } from "../../patientsData";
+
+import axios from "axios";
+
 export default function SearchPatient() {
-  const [activePatient, setActivePatient] = useState(1);
+  const [activePatient, setActivePatient] = useState(0);
+
+  const [patientCard, setPatientCard] = useState({
+    id: null,
+    Name: "",
+    MedicalID: null,
+    Room: "",
+    Status: "",
+    Condition: "",
+    Patientinfo: {
+      Age: null,
+      Gender: "",
+      RegisterDate: "",
+      Branch: "",
+      Nurse: "",
+      Doctor: "",
+    },
+    MedicalConditon: {
+      Disease: null,
+      History: "",
+      OtherDiseases: "",
+      Diabeyic: false,
+      Smoker: false,
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    axios
+      .post("#", {
+        Name: data.Name,
+        Room: "Momen",
+        Status: "under medical supervision",
+        Condition: "ide",
+        Patientinfo: [
+          {
+            Age: 23,
+            Gender: "Male",
+            RegisterDate: "Male",
+            Branch: "Male",
+            Nurse: "Male",
+            Doctor: "Male",
+          },
+        ],
+        MedicalConditon: [
+          {
+            Disease: 23,
+            History: "Male",
+            OtherDiseases: "Male",
+            Diabeyic: false,
+            Smoker: false,
+          },
+        ],
+      })
+      .then(function (response) {
+        // console.log(response);
+        // const patientIndex = patients.findIndex(
+        //   (patient) => patient.id == patientCard.id
+        // );
+        // console.log(patientIndex);
+        // patients[patientIndex] = patientCard;
+        sucnotify();
+      })
+      .catch(function (error) {
+        // console.log(error);
+        // const patientIndex = patients.findIndex(
+        //   (patient) => patient.id ===patientCard.id
+        // );
+        // patients[patientIndex] = patientCard;
+        console.log(data);
+        // console.log(patientCard);
+        errnotify();
+      });
+  };
+  console.log(errors);
+
+  const sucnotify = () =>
+    toast.success("Patient add success", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 3000,
+    });
+
+  const errnotify = () =>
+    toast.error("there is an error", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 1000,
+    });
 
   return (
     <Section>
@@ -23,143 +122,221 @@ export default function SearchPatient() {
           <label htmlFor="patient">Sort patient by Patient ID</label>
         </div>
         <div className="result">
-          <div className="patient">
-            <div className={activePatient === 1 ? "active" : "nonActive"}></div>
-            <div
-              className="info"
-              onClick={() => {
-                setActivePatient(1);
-                console.log(activePatient);
-              }}
-            >
-              <h3>Momen mekki</h3>
-              <h6>Patient ID: 2016021283</h6>
-              <p>Room: A-430</p>
+          {patients.map((patient) => (
+            <div className="patient" key={patient.id}>
+              <div
+                className={
+                  activePatient === patient.id ? "active" : "nonActive"
+                }
+              ></div>
+              <div
+                className="info"
+                onClick={() => {
+                  setActivePatient(patient.id);
+                  setPatientCard(patient);
+                  console.log(patient);
+                }}
+              >
+                <h3>{patient.Name}</h3>
+                <h6>Patient ID: {patient.MedicalID}</h6>
+                <p>Room: {patient.Room}</p>
+              </div>
             </div>
-          </div>
-          <div className="patient">
-            <div className={activePatient === 2 ? "active" : "nonActive"}></div>
-            <div
-              className="info"
-              onClick={() => {
-                setActivePatient(2);
-                console.log(activePatient);
-              }}
-            >
-              <h3>Desha</h3>
-              <h6>Patient ID: 2016021283</h6>
-              <p>Room: A-430</p>
-            </div>
-          </div>
-          <div
-            className="patient"
-            onClick={() => {
-              setActivePatient(3);
-              console.log(activePatient);
-            }}
-          >
-            <div className={activePatient === 3 ? "active" : "nonActive"}></div>
-            <div className="info">
-              <h3>Motaz Samy</h3>
-              <h6>Patient ID: 2016021283</h6>
-              <p>Room: A-430</p>
-            </div>
-          </div>
-          <div className="patient">
-            <div className={activePatient === 4 ? "active" : "nonActive"}></div>
-            <div
-              className="info"
-              onClick={() => {
-                setActivePatient(4);
-                console.log(activePatient);
-              }}
-            >
-              <h3>Momen Mekki</h3>
-              <h6>Patient ID: 2016021283</h6>
-              <p>Room: A-430</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
+
       <div className="right">
-        <div className="patientProfile">
-          <img src="/assets/ProfilePic.JPG" alt="patient" />
-          <div className="profile">
-            <h3 className="name">Momen Mekki</h3>
-            <p className="room">Room: A-430</p>
-            <h6 className="status">Status: under medical supervision</h6>
-            <p className="condition">Condition: ide</p>
-          </div>
-        </div>
-        <div className="line"></div>
-        <div className="patientInfo">
-          <h3 className="name">Patient info</h3>
-          <div className="Info">
-            <div className="leftInfo">
-              <p>
-                Age: <span>23</span>
-              </p>
-              <p>
-                Gender: <span>Male</span>
-              </p>
-              <p>
-                Register Date: <span>2016-06-12</span>
-              </p>
-            </div>
-            <div className="rightInfo">
-              <p>
-                Branch: <span>Aswan Sail branch</span>
-              </p>
-              <p>
-                Nurse: <span>Mona Mohamed</span>
-              </p>
-              <p>
-                Doctor: <span>Sara Ahmed Hassan</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="line"></div>
-        <div className="patientInfo">
-          <h3 className="name">Medical Conditon</h3>
-          <div className="Info">
-            <div className="leftInfo">
-              <p>
-                Disease: <span>Heart valve disease</span>
-              </p>
-              <p>
-                History: <span>2020-02-01</span>
-              </p>
-              <p>
-                Other Diseases:{" "}
-                <span>Strep throat, high blood presure, insomia</span>
-              </p>
-            </div>
-            <div className="rightInfo">
-              <p>
-                Diabeyic: <span>false</span>
-              </p>
-              <p>
-                Smoker: <span>false</span>
-              </p>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="patientProfile">
+            <img src="/assets/Patient.png" alt="patient" />
+            <div className="profile">
+              <div className="inputAlign">
+                <label htmlFor="name">Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder=""
+                  defaultValue={patientCard.Name}
+                  {...register("Name", {})}
+                />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="room">Room</label>
+                <input
+                  id="room"
+                  type="text"
+                  placeholder=""
+                  defaultValue={patientCard.Room}
+                  {...register("Room", {})}
+                />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="status">Status</label>
+                <input
+                  id="status"
+                  type="text"
+                  placeholder=""
+                  defaultValue={patientCard.Status}
+                  {...register("Status", {})}
+                />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="condition">Condition</label>
+                <input
+                  id="condition"
+                  type="text"
+                  placeholder=""
+                  defaultValue={patientCard.Condition}
+                  {...register("Condition", {})}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="line"></div>
-        <div className="other">
-          <div className="info">
-            <IoMdArrowDropright />
-            <p>Post examination results</p>
+          <div className="line"></div>
+          <div className="patientInfo">
+            <h3 className="name">Patient info</h3>
+            <div className="Info">
+              <div className="leftInfo">
+                <div className="inputAlign">
+                  <label htmlFor="age">Age</label>
+                  <input
+                    id="age"
+                    type="number"
+                    placeholder=""
+                    defaultValue={patientCard.Patientinfo.Age}
+                    {...register("Age", {})}
+                  />
+                </div>
+                <div className="inputAlign">
+                  <label htmlFor="gender">Gender</label>
+                  <select
+                    id="gender"
+                    defaultValue={"patientCard.Patientinfo.Gender"}
+                    {...register("Gender", {})}
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div className="inputAlign">
+                  <label htmlFor="name">Register Date</label>
+                  <input
+                    type="datetime"
+                    placeholder=""
+                    defaultValue={patientCard.Patientinfo.RegisterDate}
+                    {...register("Register Date", {})}
+                  />
+                </div>
+              </div>
+              <div className="rightInfo">
+                <div className="inputAlign">
+                  <label htmlFor="branch">Branch</label>
+                  <select
+                    defaultValue={patientCard.Patientinfo.Branch}
+                    {...register("Branch", {})}
+                  >
+                    <option value="Aswan Sail">Aswan Sail</option>
+                  </select>
+                </div>
+                <div className="inputAlign">
+                  <label htmlFor="nurse">Nurse</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    defaultValue={patientCard.Patientinfo.Nurse}
+                    {...register("Nurse", {})}
+                  />
+                </div>
+                <div className="inputAlign">
+                  <label htmlFor="doctor">Doctor</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    defaultValue={patientCard.Patientinfo.Doctor}
+                    {...register("Doctor", {})}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="info">
-            <IoMdArrowDropright />
-            <p>Documents</p>
+          <div className="line"></div>
+          <div className="patientInfo">
+            <h3 className="name">Medical Conditon</h3>
+            <div className="Info">
+              <div className="leftInfo">
+                <div className="inputAlign">
+                  <label htmlFor="disease">Disease</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    defaultValue={patientCard.MedicalConditon.Disease}
+                    {...register("Disease", {})}
+                  />
+                </div>
+                <div className="inputAlign">
+                  <label htmlFor="history">History</label>
+                  <input
+                    type="datetime"
+                    placeholder=""
+                    defaultValue={patientCard.MedicalConditon.History}
+                    {...register("History", {})}
+                  />
+                </div>
+                <div className="inputAlign">
+                  <label htmlFor="otherDiseases">Other Diseases</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    defaultValue={patientCard.MedicalConditon.OtherDiseases}
+                    {...register("Other Diseases", {})}
+                  />
+                </div>
+              </div>
+              <div className="rightInfo">
+                <div className="inputAlign">
+                  <label htmlFor="diabeyic">Diabeyic</label>
+                  <input
+                    type="checkbox"
+                    placeholder=""
+                    checked={patientCard.MedicalConditon.Diabeyic}
+                    {...register("Diabeyic", {})}
+                  />
+                </div>
+                <div className="inputAlign">
+                  <label htmlFor="smoker">Smoker</label>
+                  <input
+                    type="checkbox"
+                    placeholder=""
+                    checked={patientCard.MedicalConditon.Smoker}
+                    {...register("Smoker", {})}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="info">
-            <IoMdArrowDropright />
-            <p>Patient history</p>
+          <div className="line"></div>
+          <div className="other">
+            <div className="info">
+              <IoMdArrowDropright />
+              <p>Post examination results</p>
+            </div>
+            <div className="info">
+              <IoMdArrowDropright />
+              <p>Documents</p>
+            </div>
+            <div className="info">
+              <IoMdArrowDropright />
+              <p>Patient history</p>
+            </div>
           </div>
-        </div>
+          <div className="line"></div>
+
+          <div className="submit">
+            <input type="submit" value="Save" />
+            <input type="submit" value="Remove" id="remove" />
+          </div>
+        </form>
       </div>
     </Section>
   );
@@ -207,6 +384,8 @@ const Section = styled.section`
       }
     }
     .result {
+      overflow-y: scroll;
+      height: 90vh;
       .patient {
         cursor: pointer;
         display: flex;
@@ -239,12 +418,31 @@ const Section = styled.section`
         }
       }
     }
+    .result::-webkit-scrollbar {
+      width: 8px;
+    }
+    .result::-webkit-scrollbar-thumb {
+      background: #888888;
+      border-radius: 8px;
+    }
+    .result::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
   }
   .right {
     width: 65%;
     box-shadow: 0px 0px 1px 1px #888888;
+    input,
+    select {
+      padding: 0.5rem;
+
+      &::placeholder {
+      }
+      &:focus {
+      }
+    }
     .patientProfile {
-      padding: 1rem;
+      padding: 1rem 3rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -284,6 +482,7 @@ const Section = styled.section`
         margin-top: 1rem;
       }
       .leftInfo {
+        width: 45%;
         display: flex;
         flex-direction: column;
         gap: 0.3rem;
@@ -295,6 +494,7 @@ const Section = styled.section`
         }
       }
       .rightInfo {
+        width: 45%;
         display: flex;
         flex-direction: column;
         gap: 0.3rem;
@@ -304,6 +504,45 @@ const Section = styled.section`
             font-weight: bold;
           }
         }
+      }
+    }
+    .submit {
+      padding: 1rem 3rem;
+      input {
+        width: 100%;
+        margin: 0.5rem auto;
+        cursor: pointer;
+        color: #fff;
+        text-align: center;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        font-size: 1rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        border: none;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        &:hover {
+          color: #fff;
+          background-color: #0b5ed7;
+          border-color: #0a58ca;
+        }
+      }
+      #remove {
+        background-color: var(--red);
+      }
+    }
+    .inputAlign {
+      display: flex;
+      align-items: center;
+      label {
+        width: 30%;
+      }
+      input {
+        width: 70%;
+      }
+      select {
+        width: 70%;
       }
     }
     .other {
@@ -331,54 +570,61 @@ const Section = styled.section`
     flex-direction: column;
     gap: 2rem;
     .left {
-      width: 100%;
+      .result {
+        height: 50vh;
+      }
     }
     .right {
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      .left {
+        width: 100%;
+      }
+      .right {
+        width: 100%;
+      }
     }
   }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
     flex-direction: column;
     gap: 2rem;
+
     .left {
       width: 100%;
     }
+
     .right {
       width: 100%;
-
+      .patientProfile {
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        img {
+          width: 50%;
+        }
+        .profile {
+          width: 100%;
+        }
+      }
       .patientInfo {
-        padding: 1rem 3rem;
         .Info {
           display: flex;
           flex-direction: column;
+          justify-content: center;
           gap: 0.3rem;
-          justify-content: space-between;
-          margin-top: 1rem;
-          .leftInfo {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            p {
-              font-size: 1rem;
-              span {
-                font-weight: bold;
-              }
-            }
-          }
-          .rightInfo {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            p {
-              font-size: 1rem;
-              span {
-                font-weight: bold;
-              }
-            }
-          }
+        }
+        .leftInfo {
+          width: 100%;
+          justify-content: center;
+        }
+        .rightInfo {
+          width: 100%;
+          justify-content: center;
         }
       }
+
       .other {
         padding: 1rem 3rem;
         .info {

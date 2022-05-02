@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import styled from "styled-components";
+
 import { toast } from "react-toastify";
 
 import axios from "axios";
@@ -12,6 +13,7 @@ export default function AddPatient() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const sucnotify = () =>
     toast.success("Patient add success", {
       position: toast.POSITION.BOTTOM_RIGHT,
@@ -23,6 +25,7 @@ export default function AddPatient() {
       position: toast.POSITION.BOTTOM_RIGHT,
       autoClose: 1000,
     });
+
   const onSubmit = (data) => {
     axios
       .post("http://localhost:3004/patients", {
@@ -65,36 +68,44 @@ export default function AddPatient() {
     <Section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="patientProfile">
-          <img src="/assets/ProfilePic.JPG" alt="patient" />
+          <img src="/assets/Patient.png" alt="patient" />
           <div className="profile">
-            <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              type="text"
-              placeholder="Name"
-              {...register("Name", {})}
-            />
-            <label htmlFor="room">Room</label>
-            <input
-              id="room"
-              type="text"
-              placeholder="Room"
-              {...register("Room", {})}
-            />
-            <label htmlFor="status">Status</label>
-            <input
-              id="status"
-              type="text"
-              placeholder="Status"
-              {...register("Status", {})}
-            />
-            <label htmlFor="condition">Condition</label>
-            <input
-              id="condition"
-              type="text"
-              placeholder="Condition"
-              {...register("Condition", {})}
-            />
+            <div className="inputAlign">
+              <label htmlFor="name">Name</label>
+              <input
+                id="name"
+                type="text"
+                placeholder=""
+                {...register("Name", {})}
+              />
+            </div>
+            <div className="inputAlign">
+              <label htmlFor="room">Room</label>
+              <input
+                id="room"
+                type="text"
+                placeholder=""
+                {...register("Room", {})}
+              />
+            </div>
+            <div className="inputAlign">
+              <label htmlFor="status">Status</label>
+              <input
+                id="status"
+                type="text"
+                placeholder=""
+                {...register("Status", {})}
+              />
+            </div>
+            <div className="inputAlign">
+              <label htmlFor="condition">Condition</label>
+              <input
+                id="condition"
+                type="text"
+                placeholder=""
+                {...register("Condition", {})}
+              />
+            </div>
           </div>
         </div>
         <div className="line"></div>
@@ -102,42 +113,46 @@ export default function AddPatient() {
           <h3 className="name">Patient info</h3>
           <div className="Info">
             <div className="leftInfo">
-              <label htmlFor="age">Age</label>
-              <input
-                id="age"
-                type="number"
-                placeholder="Age"
-                {...register("Age", {})}
-              />
-              <label htmlFor="gender">Gender</label>
-              <select id="gender" {...register("Gender", {})}>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-              <label htmlFor="name">Register Date</label>
-              <input
-                type="datetime"
-                placeholder="Register Date"
-                {...register("Register Date", {})}
-              />
+              <div className="inputAlign">
+                <label htmlFor="age">Age</label>
+                <input
+                  id="age"
+                  type="number"
+                  placeholder=""
+                  {...register("Age", {})}
+                />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="gender">Gender</label>
+                <select id="gender" {...register("Gender", {})}>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="name">Register Date</label>
+                <input
+                  type="datetime"
+                  placeholder=""
+                  {...register("Register Date", {})}
+                />
+              </div>
             </div>
             <div className="rightInfo">
-              <label htmlFor="branch">Branch</label>
-              <select {...register("Branch", {})}>
-                <option value="Aswan Sail">Aswan Sail</option>
-              </select>
-              <label htmlFor="nurse">Nurse</label>
-              <input
-                type="text"
-                placeholder="Nurse"
-                {...register("Nurse", {})}
-              />
-              <label htmlFor="doctor">Doctor</label>
-              <input
-                type="text"
-                placeholder="Doctor"
-                {...register("Doctor", {})}
-              />
+              <div className="inputAlign">
+                <label htmlFor="branch">Branch</label>
+                <select {...register("Branch", {})}>
+                  <option value="Aswan Sail">Aswan Sail</option>
+                </select>
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="nurse">Nurse</label>
+                <input type="text" placeholder="" {...register("Nurse", {})} />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="doctor">Doctor</label>
+                <input type="text" placeholder="" {...register("Doctor", {})} />
+              </div>
             </div>
           </div>
         </div>
@@ -146,38 +161,48 @@ export default function AddPatient() {
           <h3 className="name">Medical Conditon</h3>
           <div className="Info">
             <div className="leftInfo">
-              <label htmlFor="disease">Disease</label>
-              <input
-                type="text"
-                placeholder="Disease"
-                {...register("Disease", {})}
-              />
-              <label htmlFor="history">History</label>
-              <input
-                type="datetime"
-                placeholder="History"
-                {...register("History", {})}
-              />
-              <label htmlFor="otherDiseases">Other Diseases</label>
-              <input
-                type="text"
-                placeholder="Other Diseases"
-                {...register("Other Diseases", {})}
-              />
+              <div className="inputAlign">
+                <label htmlFor="disease">Disease</label>
+                <input
+                  type="text"
+                  placeholder=""
+                  {...register("Disease", {})}
+                />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="history">History</label>
+                <input
+                  type="datetime"
+                  placeholder=""
+                  {...register("History", {})}
+                />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="otherDiseases">Other Diseases</label>
+                <input
+                  type="text"
+                  placeholder=""
+                  {...register("Other Diseases", {})}
+                />
+              </div>
             </div>
             <div className="rightInfo">
-              <label htmlFor="diabeyic">Diabeyic</label>
-              <input
-                type="checkbox"
-                placeholder="Diabeyic"
-                {...register("Diabeyic", {})}
-              />
-              <label htmlFor="smoker">Smoker</label>
-              <input
-                type="checkbox"
-                placeholder="Smoker"
-                {...register("Smoker", {})}
-              />
+              <div className="inputAlign">
+                <label htmlFor="diabeyic">Diabeyic</label>
+                <input
+                  type="checkbox"
+                  placeholder=""
+                  {...register("Diabeyic", {})}
+                />
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="smoker">Smoker</label>
+                <input
+                  type="checkbox"
+                  placeholder=""
+                  {...register("Smoker", {})}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -202,17 +227,15 @@ const Section = styled.section`
 
   input,
   select {
-    width: 80%;
     padding: 0.5rem;
 
     &::placeholder {
     }
     &:focus {
-      outline: none;
     }
   }
   .patientProfile {
-    padding: 1rem;
+    padding: 1rem 3rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -252,6 +275,7 @@ const Section = styled.section`
       margin-top: 1rem;
     }
     .leftInfo {
+      width: 40%;
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
@@ -263,6 +287,7 @@ const Section = styled.section`
       }
     }
     .rightInfo {
+      width: 40%;
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
@@ -275,8 +300,7 @@ const Section = styled.section`
     }
   }
   .submit {
-    width: 90%;
-    margin: 0 auto;
+    padding: 1rem 3rem;
     input {
       width: 100%;
       margin: 0.5rem auto;
@@ -298,8 +322,21 @@ const Section = styled.section`
       }
     }
   }
-
-  @media screen and (min-width: 280px) and (max-width: 1080px) {
+  .inputAlign {
+    display: flex;
+    align-items: center;
+    label {
+      width: 40%;
+    }
+    input {
+      width: 60%;
+    }
+    select {
+      width: 60%;
+    }
+  }
+  
+  @media screen and (min-width: 720px) and (max-width: 1080px) {
     flex-direction: column;
     gap: 2rem;
     .left {
@@ -311,58 +348,31 @@ const Section = styled.section`
   }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
-    flex-direction: column;
-    gap: 2rem;
-    .left {
-      width: 100%;
-    }
-    .right {
-      width: 100%;
-
-      .patientInfo {
-        padding: 1rem 3rem;
-        .Info {
-          display: flex;
-          flex-direction: column;
-          gap: 0.3rem;
-          justify-content: space-between;
-          margin-top: 1rem;
-          .leftInfo {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            p {
-              font-size: 1rem;
-              span {
-                font-weight: bold;
-              }
-            }
-          }
-          .rightInfo {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            p {
-              font-size: 1rem;
-              span {
-                font-weight: bold;
-              }
-            }
-          }
-        }
+    .patientProfile {
+      flex-direction: column;
+      justify-content: center;
+      gap: 2rem;
+      img{
+        width: 50%;
       }
-      .other {
-        padding: 1rem 3rem;
-        .info {
-          display: flex;
-          align-items: center;
-          svg {
-            font-size: 1.5rem;
-          }
-          p {
-            font-weight: 600;
-          }
-        }
+      .profile {
+        width: 100%;
+      }
+    }
+    .patientInfo {
+      .Info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.3rem;
+      }
+      .leftInfo {
+        width: 100%;
+        justify-content: center;
+      }
+      .rightInfo {
+        width: 100%;
+        justify-content: center;
       }
     }
   }
