@@ -17,9 +17,6 @@ export default function SearchPatient() {
 
   const [activePatient, setActivePatient] = useState(0);
 
-  const patientIndex = patients.findIndex(
-    (patient) => patient.id === activePatient
-  );
 
   const {
     register,
@@ -82,21 +79,29 @@ export default function SearchPatient() {
         ],
       })
       .then(function (response) {
-        console.log(response);
-
-        let Patients = patients;
-        Patients[patientIndex] = data.patient;
-        setPatients(Patients);
-        
+        // console.log(response);
+        // const patientIndex = patients.findIndex(
+        //   (patient) => patient.id == patientCard.id
+        // );
+        // console.log(patientIndex);
+        // patients[patientIndex] = patientCard;
         sucnotify();
       })
       .catch(function (error) {
         console.log(error);
 
+        const patientIndex = patients.findIndex(
+          (patient) => patient.id === activePatient
+        );
+        console.log(patientIndex);
+
+        patients[patientIndex] = data;
+
         let Patients = patients;
         Patients[patientIndex] = data.patient;
-        setPatients(Patients);
 
+        setPatients(Patients);
+        console.log(Patients);
         errnotify();
       });
   };
@@ -143,7 +148,7 @@ export default function SearchPatient() {
                   setActivePatient(patient.id);
                   console.log(patient);
                   setValue("patient", {
-                    id: patientIndex,
+                    id: patient.id,
                     Name: patient.Name,
                     MedicalID: patient.MedicalID,
                     Room: patient.Room,
