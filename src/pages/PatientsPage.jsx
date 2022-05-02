@@ -33,13 +33,6 @@ export default function PatientsPage() {
             >
               View
             </Link>
-            {/* <Link
-              to="edit-patient"
-              className={`${activeLink === 2 && "active"}`}
-              onClick={() => setActiveLink(2)}
-            >
-              Edit
-            </Link> */}
             <Link
               to="add-patient"
               className={`${activeLink === 2 && "active"}`}

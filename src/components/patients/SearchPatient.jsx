@@ -8,42 +8,51 @@ import { toast } from "react-toastify";
 import { BiSearch } from "react-icons/bi";
 import { IoMdArrowDropright } from "react-icons/io";
 
-import { patients } from "../../patientsData";
+import { patieents } from "../../patientsData";
 
 import axios from "axios";
 
 export default function SearchPatient() {
+  const [patients, setPatients] = useState(patieents);
+
   const [activePatient, setActivePatient] = useState(0);
 
-  const [patientCard, setPatientCard] = useState({
-    id: null,
-    Name: "",
-    MedicalID: null,
-    Room: "",
-    Status: "",
-    Condition: "",
-    Patientinfo: {
-      Age: null,
-      Gender: "",
-      RegisterDate: "",
-      Branch: "",
-      Nurse: "",
-      Doctor: "",
-    },
-    MedicalConditon: {
-      Disease: null,
-      History: "",
-      OtherDiseases: "",
-      Diabeyic: false,
-      Smoker: false,
-    },
-  });
+  const patientIndex = patients.findIndex(
+    (patient) => patient.id === activePatient
+  );
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      patient: {
+        id: null,
+        Name: "",
+        MedicalID: null,
+        Room: "",
+        Status: "",
+        Condition: "",
+        Patientinfo: {
+          Age: null,
+          Gender: "Female",
+          RegisterDate: "",
+          Branch: "",
+          Nurse: "",
+          Doctor: "",
+        },
+        MedicalConditon: {
+          Disease: null,
+          History: "",
+          OtherDiseases: "",
+          Diabeyic: false,
+          Smoker: false,
+        },
+      },
+    },
+  });
 
   const onSubmit = (data) => {
     axios
@@ -73,22 +82,21 @@ export default function SearchPatient() {
         ],
       })
       .then(function (response) {
-        // console.log(response);
-        // const patientIndex = patients.findIndex(
-        //   (patient) => patient.id == patientCard.id
-        // );
-        // console.log(patientIndex);
-        // patients[patientIndex] = patientCard;
+        console.log(response);
+
+        let Patients = patients;
+        Patients[patientIndex] = data.patient;
+        setPatients(Patients);
+        
         sucnotify();
       })
       .catch(function (error) {
-        // console.log(error);
-        // const patientIndex = patients.findIndex(
-        //   (patient) => patient.id ===patientCard.id
-        // );
-        // patients[patientIndex] = patientCard;
-        console.log(data);
-        // console.log(patientCard);
+        console.log(error);
+
+        let Patients = patients;
+        Patients[patientIndex] = data.patient;
+        setPatients(Patients);
+
         errnotify();
       });
   };
@@ -133,8 +141,30 @@ export default function SearchPatient() {
                 className="info"
                 onClick={() => {
                   setActivePatient(patient.id);
-                  setPatientCard(patient);
                   console.log(patient);
+                  setValue("patient", {
+                    id: patientIndex,
+                    Name: patient.Name,
+                    MedicalID: patient.MedicalID,
+                    Room: patient.Room,
+                    Status: patient.Status,
+                    Condition: patient.Condition,
+                    Patientinfo: {
+                      Age: patient.Patientinfo.Age,
+                      Gender: patient.Patientinfo.Gender,
+                      RegisterDate: patient.Patientinfo.RegisterDate,
+                      Branch: patient.Patientinfo.Branch,
+                      Nurse: patient.Patientinfo.Nurse,
+                      Doctor: patient.Patientinfo.Doctor,
+                    },
+                    MedicalConditon: {
+                      Disease: patient.MedicalConditon.Disease,
+                      History: patient.MedicalConditon.History,
+                      OtherDiseases: patient.MedicalConditon.OtherDiseases,
+                      Diabeyic: patient.MedicalConditon.Diabeyic,
+                      Smoker: patient.MedicalConditon.Smoker,
+                    },
+                  });
                 }}
               >
                 <h3>{patient.Name}</h3>
@@ -157,8 +187,7 @@ export default function SearchPatient() {
                   id="name"
                   type="text"
                   placeholder=""
-                  defaultValue={patientCard.Name}
-                  {...register("Name", {})}
+                  {...register("patient.Name", {})}
                 />
               </div>
               <div className="inputAlign">
@@ -167,8 +196,7 @@ export default function SearchPatient() {
                   id="room"
                   type="text"
                   placeholder=""
-                  defaultValue={patientCard.Room}
-                  {...register("Room", {})}
+                  {...register("patient.Room", {})}
                 />
               </div>
               <div className="inputAlign">
@@ -177,8 +205,7 @@ export default function SearchPatient() {
                   id="status"
                   type="text"
                   placeholder=""
-                  defaultValue={patientCard.Status}
-                  {...register("Status", {})}
+                  {...register("patient.Status", {})}
                 />
               </div>
               <div className="inputAlign">
@@ -187,8 +214,7 @@ export default function SearchPatient() {
                   id="condition"
                   type="text"
                   placeholder=""
-                  defaultValue={patientCard.Condition}
-                  {...register("Condition", {})}
+                  {...register("patient.Condition", {})}
                 />
               </div>
             </div>
@@ -204,16 +230,14 @@ export default function SearchPatient() {
                     id="age"
                     type="number"
                     placeholder=""
-                    defaultValue={patientCard.Patientinfo.Age}
-                    {...register("Age", {})}
+                    {...register("patient.Patientinfo.Age", {})}
                   />
                 </div>
                 <div className="inputAlign">
                   <label htmlFor="gender">Gender</label>
                   <select
                     id="gender"
-                    defaultValue={"patientCard.Patientinfo.Gender"}
-                    {...register("Gender", {})}
+                    {...register("patient.Patientinfo.Gender", {})}
                   >
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -224,18 +248,14 @@ export default function SearchPatient() {
                   <input
                     type="datetime"
                     placeholder=""
-                    defaultValue={patientCard.Patientinfo.RegisterDate}
-                    {...register("Register Date", {})}
+                    {...register("patient.Patientinfo.RegisterDate", {})}
                   />
                 </div>
               </div>
               <div className="rightInfo">
                 <div className="inputAlign">
                   <label htmlFor="branch">Branch</label>
-                  <select
-                    defaultValue={patientCard.Patientinfo.Branch}
-                    {...register("Branch", {})}
-                  >
+                  <select {...register("patient.Patientinfo.Branch", {})}>
                     <option value="Aswan Sail">Aswan Sail</option>
                   </select>
                 </div>
@@ -244,8 +264,7 @@ export default function SearchPatient() {
                   <input
                     type="text"
                     placeholder=""
-                    defaultValue={patientCard.Patientinfo.Nurse}
-                    {...register("Nurse", {})}
+                    {...register("patient.Patientinfo.Nurse", {})}
                   />
                 </div>
                 <div className="inputAlign">
@@ -253,8 +272,7 @@ export default function SearchPatient() {
                   <input
                     type="text"
                     placeholder=""
-                    defaultValue={patientCard.Patientinfo.Doctor}
-                    {...register("Doctor", {})}
+                    {...register("patient.Patientinfo.Doctor", {})}
                   />
                 </div>
               </div>
@@ -270,8 +288,7 @@ export default function SearchPatient() {
                   <input
                     type="text"
                     placeholder=""
-                    defaultValue={patientCard.MedicalConditon.Disease}
-                    {...register("Disease", {})}
+                    {...register("patient.MedicalConditon.Disease", {})}
                   />
                 </div>
                 <div className="inputAlign">
@@ -279,8 +296,7 @@ export default function SearchPatient() {
                   <input
                     type="datetime"
                     placeholder=""
-                    defaultValue={patientCard.MedicalConditon.History}
-                    {...register("History", {})}
+                    {...register("patient.MedicalConditon.History", {})}
                   />
                 </div>
                 <div className="inputAlign">
@@ -288,8 +304,7 @@ export default function SearchPatient() {
                   <input
                     type="text"
                     placeholder=""
-                    defaultValue={patientCard.MedicalConditon.OtherDiseases}
-                    {...register("Other Diseases", {})}
+                    {...register("patient.MedicalConditon.OtherDiseases", {})}
                   />
                 </div>
               </div>
@@ -299,8 +314,7 @@ export default function SearchPatient() {
                   <input
                     type="checkbox"
                     placeholder=""
-                    checked={patientCard.MedicalConditon.Diabeyic}
-                    {...register("Diabeyic", {})}
+                    {...register("patient.MedicalConditon.Diabeyic", {})}
                   />
                 </div>
                 <div className="inputAlign">
@@ -308,8 +322,7 @@ export default function SearchPatient() {
                   <input
                     type="checkbox"
                     placeholder=""
-                    checked={patientCard.MedicalConditon.Smoker}
-                    {...register("Smoker", {})}
+                    {...register("patient.MedicalConditon.Smoker", {})}
                   />
                 </div>
               </div>
