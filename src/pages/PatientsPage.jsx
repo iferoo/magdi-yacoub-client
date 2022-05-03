@@ -8,11 +8,7 @@ export default function PatientsPage() {
   const [activeLink, setActiveLink] = useState(1);
 
   const handleActiveLink = () => {
-    pathname === "/patients/edit-patient"
-      ? setActiveLink(2)
-      : pathname === "/patients/add-patient"
-      ? setActiveLink(2)
-      : setActiveLink(1);
+    pathname === "/patients/add-patient" ? setActiveLink(2) : setActiveLink(1);
   };
 
   useEffect(() => {
@@ -22,7 +18,6 @@ export default function PatientsPage() {
   return (
     <Section>
       <div className="container">
-
         <div className="top">
           <h2>Patients</h2>
           <div>
@@ -46,7 +41,6 @@ export default function PatientsPage() {
         <div className="down">
           <Outlet />
         </div>
-        
       </div>
     </Section>
   );

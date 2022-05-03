@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import styled from "styled-components";
 
-import { toast } from "react-toastify";
-
 import { BiSearch } from "react-icons/bi";
 import { IoMdArrowDropright } from "react-icons/io";
 
-import { patieents } from "../../patientsData";
+import { patieents } from "../../util/patientsData";
 
-import axios from "axios";
+// import axios from "axios";
+
+import { succNotify } from "../../util/Notification";
 
 export default function SearchPatient() {
-  const [patients, setPatients] = useState(patieents);
+  const [patients, setPatients] = useState([]);
 
   const [activePatient, setActivePatient] = useState(0);
-
 
   const {
     register,
@@ -34,7 +33,7 @@ export default function SearchPatient() {
         Condition: "",
         Patientinfo: {
           Age: null,
-          Gender: "Female",
+          Gender: "",
           RegisterDate: "",
           Branch: "",
           Nurse: "",
@@ -52,72 +51,21 @@ export default function SearchPatient() {
   });
 
   const onSubmit = (data) => {
-    axios
-      .post("#", {
-        Name: data.Name,
-        Room: "Momen",
-        Status: "under medical supervision",
-        Condition: "ide",
-        Patientinfo: [
-          {
-            Age: 23,
-            Gender: "Male",
-            RegisterDate: "Male",
-            Branch: "Male",
-            Nurse: "Male",
-            Doctor: "Male",
-          },
-        ],
-        MedicalConditon: [
-          {
-            Disease: 23,
-            History: "Male",
-            OtherDiseases: "Male",
-            Diabeyic: false,
-            Smoker: false,
-          },
-        ],
-      })
-      .then(function (response) {
-        // console.log(response);
-        // const patientIndex = patients.findIndex(
-        //   (patient) => patient.id == patientCard.id
-        // );
-        // console.log(patientIndex);
-        // patients[patientIndex] = patientCard;
-        sucnotify();
-      })
-      .catch(function (error) {
-        console.log(error);
+    const patientIndex = patients.findIndex(
+      (patient) => patient.id === activePatient
+    );
 
-        const patientIndex = patients.findIndex(
-          (patient) => patient.id === activePatient
-        );
-        console.log(patientIndex);
+    let Patients = [...patients];
 
-        patients[patientIndex] = data;
-
-        let Patients = patients;
-        Patients[patientIndex] = data.patient;
-
-        setPatients(Patients);
-        console.log(Patients);
-        errnotify();
-      });
+    Patients[patientIndex] = data.patient;
+    setPatients(Patients);
+    succNotify("Edit Patient Successfull");
   };
   console.log(errors);
 
-  const sucnotify = () =>
-    toast.success("Patient add success", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 3000,
-    });
-
-  const errnotify = () =>
-    toast.error("there is an error", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 1000,
-    });
+  useEffect(() => {
+    setPatients(patieents);
+  }, []);
 
   return (
     <Section>
@@ -146,7 +94,6 @@ export default function SearchPatient() {
                 className="info"
                 onClick={() => {
                   setActivePatient(patient.id);
-                  console.log(patient);
                   setValue("patient", {
                     id: patient.id,
                     Name: patient.Name,
@@ -410,16 +357,14 @@ const Section = styled.section`
         padding: 0.5rem;
         .active {
           margin: 0.4rem;
-          width: 8px;
-          height: 8px;
+          width: 10px;
+          height: 10px;
           background-color: blue;
           border-radius: 50%;
         }
         .nonActive {
           margin: 0.4rem;
           width: 10px;
-          height: 10px;
-          border-radius: 50%;
         }
         .info {
           display: flex;

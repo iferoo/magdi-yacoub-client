@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
 import { BiBed } from "react-icons/bi";
-import { rooms } from "../roomsData";
+import { rooms } from "../util/roomsData";
 
 export default function RoomsPage() {
   const [bedToggle, setBedToggle] = useState(0);
