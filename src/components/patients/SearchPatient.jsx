@@ -17,11 +17,15 @@ export default function SearchPatient() {
 
   const [activePatient, setActivePatient] = useState(0);
 
+  const patientIndex = patients.findIndex(
+    (patient) => patient.id === activePatient
+  );
+
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    // formState: { errors },
   } = useForm({
     defaultValues: {
       patient: {
@@ -50,10 +54,6 @@ export default function SearchPatient() {
     },
   });
 
-  const patientIndex = patients.findIndex(
-    (patient) => patient.id === activePatient
-  );
-
   const onSubmit = (data) => {
     let Patients = [...patients];
 
@@ -61,10 +61,9 @@ export default function SearchPatient() {
     setPatients(Patients);
     succNotify("Edit Patient Successfull");
   };
-  console.log(errors);
+  // console.log(errors);
 
   const handleRemove = () => {
-    console.log(patients[patientIndex].id);
     let Patients = [...patients];
     Patients.splice(patientIndex, 1);
     setPatients(Patients);
@@ -93,6 +92,30 @@ export default function SearchPatient() {
     });
     errNotify("Patient Removed");
   };
+
+  const handleSearch = (event) => {
+    // const patientName = event.target.value;
+    // const patientFilterd = patients.filter((patient) => {
+    //   console.log(
+    //     patient.Name.toLowerCase()
+    //       .toString()
+    //       .includes(patientName.toLowerCase().toString())
+    //   );
+    // });
+    // console.log(patientFilterd)
+
+    // const arr = [
+    //   "Partner",
+    //   "Nice Relative 2",
+    //   "another evil",
+    //   "another one",
+    //   "strange Evil is here",
+    //   "someone Nicer",
+    // ];
+    // const result = arr.filter((s) => !s.match(/evil/i));
+    const patientFilterd = patients;
+    console.log(patientFilterd);
+  };
   useEffect(() => {
     setPatients(patieents);
   }, []);
@@ -108,6 +131,7 @@ export default function SearchPatient() {
               name="patient"
               id="patient"
               placeholder="Search by patient name"
+              onChange={handleSearch}
             />
           </div>
           <label htmlFor="patient">Sort patient by Patient ID</label>
