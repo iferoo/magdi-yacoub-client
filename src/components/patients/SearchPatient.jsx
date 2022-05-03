@@ -10,7 +10,7 @@ import { patieents } from "../../util/patientsData";
 
 // import axios from "axios";
 
-import { succNotify } from "../../util/Notification";
+import { succNotify, errNotify } from "../../util/Notification";
 
 export default function SearchPatient() {
   const [patients, setPatients] = useState([]);
@@ -50,11 +50,11 @@ export default function SearchPatient() {
     },
   });
 
-  const onSubmit = (data) => {
-    const patientIndex = patients.findIndex(
-      (patient) => patient.id === activePatient
-    );
+  const patientIndex = patients.findIndex(
+    (patient) => patient.id === activePatient
+  );
 
+  const onSubmit = (data) => {
     let Patients = [...patients];
 
     Patients[patientIndex] = data.patient;
@@ -63,6 +63,36 @@ export default function SearchPatient() {
   };
   console.log(errors);
 
+  const handleRemove = () => {
+    console.log(patients[patientIndex].id);
+    let Patients = [...patients];
+    Patients.splice(patientIndex, 1);
+    setPatients(Patients);
+    setValue("patient", {
+      id: null,
+      Name: "",
+      MedicalID: null,
+      Room: "",
+      Status: "",
+      Condition: "",
+      Patientinfo: {
+        Age: null,
+        Gender: "",
+        RegisterDate: "",
+        Branch: "",
+        Nurse: "",
+        Doctor: "",
+      },
+      MedicalConditon: {
+        Disease: null,
+        History: "",
+        OtherDiseases: "",
+        Diabeyic: false,
+        Smoker: false,
+      },
+    });
+    errNotify("Patient Removed");
+  };
   useEffect(() => {
     setPatients(patieents);
   }, []);
@@ -299,9 +329,13 @@ export default function SearchPatient() {
 
           <div className="submit">
             <input type="submit" value="Save" />
-            <input type="submit" value="Remove" id="remove" />
           </div>
         </form>
+        <div className="submit">
+          <button id="remove" className="remove" onClick={() => handleRemove()}>
+            Remove
+          </button>
+        </div>
       </div>
     </Section>
   );
@@ -398,7 +432,6 @@ const Section = styled.section`
     input,
     select {
       padding: 0.5rem;
-
       &::placeholder {
       }
       &:focus {
@@ -469,9 +502,11 @@ const Section = styled.section`
         }
       }
     }
-    .submit {
-      padding: 1rem 3rem;
-      input {
+    .submit,
+    .remove {
+      padding: 0rem 3rem;
+      input,
+      button {
         width: 100%;
         margin: 0.5rem auto;
         cursor: pointer;

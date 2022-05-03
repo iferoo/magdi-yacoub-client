@@ -5,7 +5,6 @@ export const succNotify = (message) => {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 1000,
     });
-    console.log("Test Notification");
 };
 
 export const errNotify = (message) => {
@@ -13,5 +12,4 @@ export const errNotify = (message) => {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 1000,
     });
-    console.log("Notifacation test");
 };
