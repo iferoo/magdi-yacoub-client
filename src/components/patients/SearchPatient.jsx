@@ -369,6 +369,7 @@ const Section = styled.section`
           width: 80%;
           background-color: transparent;
           border: none;
+          color: var(--white);
           &::placeholder {
             color: var(--white);
           }
@@ -502,8 +503,7 @@ const Section = styled.section`
         }
       }
     }
-    .submit,
-    .remove {
+    .submit {
       padding: 0rem 3rem;
       input,
       button {
@@ -573,8 +573,7 @@ const Section = styled.section`
       }
     }
     .right {
-      display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 2rem;
       .left {
         width: 100%;
