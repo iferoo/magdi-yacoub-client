@@ -3,7 +3,9 @@ import { useForm } from "react-hook-form";
 
 import styled from "styled-components";
 
-import { toast } from "react-toastify";
+import { succNotify, errNotify } from "../../util/Notification";
+
+import { patientsUrl } from "../../util/url";
 
 import axios from "axios";
 
@@ -11,58 +13,91 @@ export default function AddPatient() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const sucnotify = () =>
-    toast.success("Patient add success", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 3000,
-    });
-
-  const errnotify = () =>
-    toast.error("there is an error", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 1000,
-    });
+    setValue,
+    // formState: { errors },
+  } = useForm({
+    defaultValues: {
+      patient: {
+        id: null,
+        Name: "",
+        MedicalID: null,
+        Room: "",
+        Status: "",
+        Condition: "",
+        Patientinfo: {
+          Age: null,
+          Gender: "",
+          RegisterDate: "",
+          Branch: "",
+          Nurse: "",
+          Doctor: "",
+        },
+        MedicalConditon: {
+          Disease: null,
+          History: "",
+          OtherDiseases: "",
+          Diabeyic: false,
+          Smoker: false,
+        },
+      },
+    },
+  });
 
   const onSubmit = (data) => {
     axios
-      .post("http://localhost:3004/patients", {
-        Name: data.Name,
-        Room: "Momen",
-        Status: "under medical supervision",
-        Condition: "ide",
-        Patientinfo: [
-          {
-            Age: 23,
-            Gender: "Male",
-            RegisterDate: "Male",
-            Branch: "Male",
-            Nurse: "Male",
-            Doctor: "Male",
-          },
-        ],
-        MedicalConditon: [
-          {
-            Disease: 23,
-            History: "Male",
-            OtherDiseases: "Male",
-            Diabeyic: "Male",
-            Smoker: "Male",
-          },
-        ],
+      .post(patientsUrl, {
+        Name: data.patient.Name,
+        Room: data.patient.Room,
+        Status: data.patient.Status,
+        Condition: data.patient.Condition,
+        Patientinfo: {
+          Age: data.patient.Patientinfo.Age,
+          Gender: data.patient.Patientinfo.Gender,
+          RegisterDate: data.patient.Patientinfo.RegisterDate,
+          Branch: data.patient.Patientinfo.Branch,
+          Nurse: data.patient.Patientinfo.Nurse,
+          Doctor: data.patient.Patientinfo.Doctor,
+        },
+        MedicalConditon: {
+          Disease: data.patient.MedicalConditon.Disease,
+          History: data.patient.MedicalConditon.History,
+          OtherDiseases: data.patient.MedicalConditon.OtherDiseases,
+          Diabeyic: data.patient.MedicalConditon.Diabeyic,
+          Smoker: data.patient.MedicalConditon.Smoker,
+        },
       })
       .then(function (response) {
-        console.log(response);
-        sucnotify();
+        // console.log(response);
+        setValue("patient", {
+          Name: "",
+          MedicalID: null,
+          Room: "",
+          Status: "",
+          Condition: "",
+          Patientinfo: {
+            Age: null,
+            Gender: "",
+            RegisterDate: "",
+            Branch: "",
+            Nurse: "",
+            Doctor: "",
+          },
+          MedicalConditon: {
+            Disease: null,
+            History: "",
+            OtherDiseases: "",
+            Diabeyic: false,
+            Smoker: false,
+          },
+        });
+        succNotify("Patient Add Successfully");
       })
       .catch(function (error) {
         console.log(error);
-        errnotify();
+        errNotify("error!");
       });
   };
-  console.log(errors);
+  // console.log(errors);
 
   return (
     <Section>
@@ -76,7 +111,7 @@ export default function AddPatient() {
                 id="name"
                 type="text"
                 placeholder=""
-                {...register("Name", {})}
+                {...register("patient.Name", { required: true })}
               />
             </div>
             <div className="inputAlign">
@@ -85,7 +120,7 @@ export default function AddPatient() {
                 id="room"
                 type="text"
                 placeholder=""
-                {...register("Room", {})}
+                {...register("patient.Room", { required: true })}
               />
             </div>
             <div className="inputAlign">
@@ -94,7 +129,7 @@ export default function AddPatient() {
                 id="status"
                 type="text"
                 placeholder=""
-                {...register("Status", {})}
+                {...register("patient.Status", { required: true })}
               />
             </div>
             <div className="inputAlign">
@@ -103,7 +138,7 @@ export default function AddPatient() {
                 id="condition"
                 type="text"
                 placeholder=""
-                {...register("Condition", {})}
+                {...register("patient.Condition", { required: true })}
               />
             </div>
           </div>
@@ -119,12 +154,17 @@ export default function AddPatient() {
                   id="age"
                   type="number"
                   placeholder=""
-                  {...register("Age", {})}
+                  {...register("patient.Patientinfo.Age", { required: true })}
                 />
               </div>
               <div className="inputAlign">
                 <label htmlFor="gender">Gender</label>
-                <select id="gender" {...register("Gender", {})}>
+                <select
+                  id="gender"
+                  {...register("patient.Patientinfo.Gender", {
+                    required: true,
+                  })}
+                >
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
@@ -134,24 +174,40 @@ export default function AddPatient() {
                 <input
                   type="datetime"
                   placeholder=""
-                  {...register("Register Date", {})}
+                  {...register("patient.Patientinfo.RegisterDate", {
+                    required: true,
+                  })}
                 />
               </div>
             </div>
             <div className="rightInfo">
               <div className="inputAlign">
                 <label htmlFor="branch">Branch</label>
-                <select {...register("Branch", {})}>
+                <select
+                  {...register("patient.Patientinfo.Branch", {
+                    required: true,
+                  })}
+                >
                   <option value="Aswan Sail">Aswan Sail</option>
                 </select>
               </div>
               <div className="inputAlign">
                 <label htmlFor="nurse">Nurse</label>
-                <input type="text" placeholder="" {...register("Nurse", {})} />
+                <input
+                  type="text"
+                  placeholder=""
+                  {...register("patient.Patientinfo.Nurse", { required: true })}
+                />
               </div>
               <div className="inputAlign">
                 <label htmlFor="doctor">Doctor</label>
-                <input type="text" placeholder="" {...register("Doctor", {})} />
+                <input
+                  type="text"
+                  placeholder=""
+                  {...register("patient.Patientinfo.Doctor", {
+                    required: true,
+                  })}
+                />
               </div>
             </div>
           </div>
@@ -166,7 +222,9 @@ export default function AddPatient() {
                 <input
                   type="text"
                   placeholder=""
-                  {...register("Disease", {})}
+                  {...register("patient.MedicalConditon.Disease", {
+                    required: true,
+                  })}
                 />
               </div>
               <div className="inputAlign">
@@ -174,7 +232,9 @@ export default function AddPatient() {
                 <input
                   type="datetime"
                   placeholder=""
-                  {...register("History", {})}
+                  {...register("patient.MedicalConditon.History", {
+                    required: true,
+                  })}
                 />
               </div>
               <div className="inputAlign">
@@ -182,7 +242,9 @@ export default function AddPatient() {
                 <input
                   type="text"
                   placeholder=""
-                  {...register("Other Diseases", {})}
+                  {...register("patient.MedicalConditon.OtherDiseases", {
+                    required: true,
+                  })}
                 />
               </div>
             </div>
@@ -192,7 +254,7 @@ export default function AddPatient() {
                 <input
                   type="checkbox"
                   placeholder=""
-                  {...register("Diabeyic", {})}
+                  {...register("patient.MedicalConditon.Diabeyic", {})}
                 />
               </div>
               <div className="inputAlign">
@@ -200,7 +262,7 @@ export default function AddPatient() {
                 <input
                   type="checkbox"
                   placeholder=""
-                  {...register("Smoker", {})}
+                  {...register("patient.MedicalConditon.Smoker", {})}
                 />
               </div>
             </div>
@@ -335,7 +397,7 @@ const Section = styled.section`
       width: 60%;
     }
   }
-  
+
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     flex-direction: column;
     gap: 2rem;
@@ -352,7 +414,7 @@ const Section = styled.section`
       flex-direction: column;
       justify-content: center;
       gap: 2rem;
-      img{
+      img {
         width: 50%;
       }
       .profile {

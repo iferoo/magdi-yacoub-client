@@ -6,14 +6,20 @@ import styled from "styled-components";
 import { BiSearch } from "react-icons/bi";
 import { IoMdArrowDropright } from "react-icons/io";
 
-import { patieents } from "../../util/patientsData";
+// import { patieents } from "../../util/patientsData";
 
-// import axios from "axios";
+import axios from "axios";
+
+import { patientsUrl } from "../../util/url";
 
 import { succNotify, errNotify } from "../../util/Notification";
 
 export default function SearchPatient() {
   const [patients, setPatients] = useState([]);
+
+  const [patientSearch, setPatientSearch] = useState([]);
+
+  const [filteredPatients, setFilterPatients] = useState(patients);
 
   const [activePatient, setActivePatient] = useState(0);
 
@@ -55,70 +61,105 @@ export default function SearchPatient() {
   });
 
   const onSubmit = (data) => {
-    let Patients = [...patients];
-
-    Patients[patientIndex] = data.patient;
-    setPatients(Patients);
-    succNotify("Edit Patient Successfull");
+    axios
+      .put(patientsUrl + `/${activePatient}`, {
+        Name: data.patient.Name,
+        Room: data.patient.Room,
+        Status: data.patient.Status,
+        Condition: data.patient.Condition,
+        Patientinfo: {
+          Age: data.patient.Patientinfo.Age,
+          Gender: data.patient.Patientinfo.Gender,
+          RegisterDate: data.patient.Patientinfo.RegisterDate,
+          Branch: data.patient.Patientinfo.Branch,
+          Nurse: data.patient.Patientinfo.Nurse,
+          Doctor: data.patient.Patientinfo.Doctor,
+        },
+        MedicalConditon: {
+          Disease: data.patient.MedicalConditon.Disease,
+          History: data.patient.MedicalConditon.History,
+          OtherDiseases: data.patient.MedicalConditon.OtherDiseases,
+          Diabeyic: data.patient.MedicalConditon.Diabeyic,
+          Smoker: data.patient.MedicalConditon.Smoker,
+        },
+      })
+      .then(function (response) {
+        // console.log(response);
+        const Patients = [...patients];
+        Patients[patientIndex] = data.patient;
+        setPatients(Patients);
+        succNotify("Edit Patient Successfull");
+      })
+      .catch(function (error) {
+        console.log(error);
+        errNotify("Error !");
+      });
   };
   // console.log(errors);
 
   const handleRemove = () => {
-    let Patients = [...patients];
-    Patients.splice(patientIndex, 1);
-    setPatients(Patients);
-    setValue("patient", {
-      id: null,
-      Name: "",
-      MedicalID: null,
-      Room: "",
-      Status: "",
-      Condition: "",
-      Patientinfo: {
-        Age: null,
-        Gender: "",
-        RegisterDate: "",
-        Branch: "",
-        Nurse: "",
-        Doctor: "",
-      },
-      MedicalConditon: {
-        Disease: null,
-        History: "",
-        OtherDiseases: "",
-        Diabeyic: false,
-        Smoker: false,
-      },
-    });
-    errNotify("Patient Removed");
+    axios
+      .delete(patientsUrl + `/${activePatient}`)
+      .then((response) => {
+        console.log(response);
+        const Patients = [...patients];
+        Patients.splice(patientIndex, 1);
+
+        setPatients(Patients);
+
+        setValue("patient", {
+          id: null,
+          Name: "",
+          MedicalID: null,
+          Room: "",
+          Status: "",
+          Condition: "",
+          Patientinfo: {
+            Age: null,
+            Gender: "",
+            RegisterDate: "",
+            Branch: "",
+            Nurse: "",
+            Doctor: "",
+          },
+          MedicalConditon: {
+            Disease: null,
+            History: "",
+            OtherDiseases: "",
+            Diabeyic: false,
+            Smoker: false,
+          },
+        });
+        errNotify("Patient Removed");
+      })
+      .catch((error) => {
+        console.log(error);
+        errNotify("Error on Removed");
+      });
   };
 
   const handleSearch = (event) => {
-    // const patientName = event.target.value;
-    // const patientFilterd = patients.filter((patient) => {
-    //   console.log(
-    //     patient.Name.toLowerCase()
-    //       .toString()
-    //       .includes(patientName.toLowerCase().toString())
-    //   );
-    // });
-    // console.log(patientFilterd)
-
-    // const arr = [
-    //   "Partner",
-    //   "Nice Relative 2",
-    //   "another evil",
-    //   "another one",
-    //   "strange Evil is here",
-    //   "someone Nicer",
-    // ];
-    // const result = arr.filter((s) => !s.match(/evil/i));
-    const patientFilterd = patients;
-    console.log(patientFilterd);
+    const patientName = event.target.value.toLocaleLowerCase();
+    setPatientSearch(patientName);
   };
+
   useEffect(() => {
-    setPatients(patieents);
+    axios
+      .get(patientsUrl)
+      .then((response) => {
+        setPatients(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
+
+  useEffect(() => {
+    const patientsFilterd = patients.filter((patient) => {
+      return patient.Name.toLocaleLowerCase().includes(patientSearch);
+    });
+    setFilterPatients(patientsFilterd);
+  }, [patients, patientSearch]);
 
   return (
     <Section>
@@ -131,13 +172,14 @@ export default function SearchPatient() {
               name="patient"
               id="patient"
               placeholder="Search by patient name"
+              autoComplete="off"
               onChange={handleSearch}
             />
           </div>
           <label htmlFor="patient">Sort patient by Patient ID</label>
         </div>
         <div className="result">
-          {patients.map((patient) => (
+          {filteredPatients.map((patient) => (
             <div className="patient" key={patient.id}>
               <div
                 className={
@@ -645,7 +687,12 @@ const Section = styled.section`
           justify-content: center;
         }
       }
-
+      .submit {
+        input,
+        button {
+          border-radius: 0.5rem;
+        }
+      }
       .other {
         padding: 1rem 3rem;
         .info {

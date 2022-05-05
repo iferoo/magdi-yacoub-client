@@ -71,10 +71,10 @@ const Section = styled.section`
     .down {
       
       img {
-        width: 100vh;
+        width: 50vh;
       }
       p {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 200;
       }
     }
