@@ -40,7 +40,8 @@ export default function LogInPage() {
             >
               Login
             </button>
-            <a href="/"> Sign Up ? </a> <a href="/"> Forget Password </a>
+            <a href="/"> Sign Up ? </a>
+            <a href="/"> Forget Password </a>
           </form>
         </div>
       </div>
@@ -96,7 +97,8 @@ const Section = styled.section`
       }
     }
     a {
-      font-size: small;
+      font-size: x-small;
+      color: black;
       display: block;
       text-decoration: none;
       margin-top: 0.5rem;

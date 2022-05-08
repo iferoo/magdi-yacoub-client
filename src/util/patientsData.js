@@ -1,4 +1,4 @@
-export var patieents = [{
+export const patieents = [{
         id: 1,
         Name: "Momen Mekki",
         MedicalID: 2021602183,

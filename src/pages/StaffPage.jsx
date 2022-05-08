@@ -1,154 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
+
 import styled from "styled-components";
 
 export default function StaffPage() {
+  const { pathname } = useLocation();
+  const [activeLink, setActiveLink] = useState(1);
+
+  const handleActiveLink = () => {
+    pathname === "/staff/update"
+      ? setActiveLink(2)
+      : pathname === "/staff/add"
+      ? setActiveLink(3)
+      : setActiveLink(1);
+  };
+
+  useEffect(() => {
+    handleActiveLink();
+  }, [pathname]);
+
   return (
     <Section>
       <div className="container">
         <div className="top">
           <h2>Staff</h2>
+          <div>
+            <Link
+              to=""
+              className={`${activeLink === 1 && "active"}`}
+              onClick={() => setActiveLink(1)}
+            >
+              View
+            </Link>
+            <Link
+              to="update"
+              className={`${activeLink === 2 && "active"}`}
+              onClick={() => setActiveLink(2)}
+            >
+              Update
+            </Link>
+            <Link
+              to="add"
+              className={`${activeLink === 3 && "active"}`}
+              onClick={() => setActiveLink(3)}
+            >
+              Add
+            </Link>
+          </div>
         </div>
 
         <div className="down">
-          <div>
-            <div className="staffType">
-              <h3>Doctors</h3>
-            </div>
-            <div className="staffInfo">
-              <table>
-                <tr>
-                  <th className="duty">On duty</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-
-              <table>
-                <tr>
-                  <th className="shift">Next Shift</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-
-              <table>
-                <tr>
-                  <th className="vacation">Vacation</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-
-          <div>
-            <div className="staffType">
-              <h3>Nurses</h3>
-            </div>
-            <div className="staffInfo">
-              <table>
-                <tr>
-                  <th className="duty">On duty</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-
-              <table>
-                <tr>
-                  <th className="shift">Next Shift</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-
-              <table>
-                <tr>
-                  <th className="vacation">Vacation</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-          <div>
-            <div className="staffType">
-              <h3>Staff</h3>
-            </div>
-            <div className="staffInfo">
-              <table>
-                <tr>
-                  <th className="duty">On duty</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-
-              <table>
-                <tr>
-                  <th className="shift">Next Shift</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-
-              <table>
-                <tr>
-                  <th className="vacation">Vacation</th>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-                <tr>
-                  <td>Fatma Saeed Ahmed</td>
-                </tr>
-              </table>
-            </div>
-          </div>
+          <Outlet />
         </div>
       </div>
     </Section>
@@ -158,7 +60,6 @@ export default function StaffPage() {
 const Section = styled.section`
   margin-left: 18vw;
   padding: 2rem;
-  height: 100%;
 
   .container {
     width: 100%;
@@ -173,46 +74,29 @@ const Section = styled.section`
     .top {
       padding: 1rem;
       border-bottom: 1px solid #888888;
+      display: flex;
+      align-items: flex-start;
+      align-content: flex-start;
+      justify-content: space-between;
+      div {
+        display: flex;
+        gap: 1rem;
+
+        a {
+          text-decoration: none;
+          color: #000;
+          border: 1px solid black;
+          border-radius: 1rem;
+          padding: 0.5rem;
+        }
+        .active {
+          background-color: #000;
+          color: #fff;
+        }
+      }
     }
     .down {
       padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 2rem;
-      .staffType {
-        margin: 1rem 0;
-        h3 {
-          font-size: 1.5rem;
-          font-weight: 200;
-        }
-      }
-      .staffInfo {
-        display: flex;
-        justify-content: space-between;
-        table {
-          border-collapse: collapse;
-          width: 30%;
-          td,
-          th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-          }
-        }
-        .duty {
-          background-color: green;
-          color: white;
-        }
-        .shift {
-          background-color: yellowgreen;
-          color: white;
-        }
-        .vacation {
-          background-color: burlywood;
-          color: white;
-        }
-      }
     }
   }
 

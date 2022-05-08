@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { PieChart, Pie, Cell } from "recharts";
+import axios from "axios";
 
 const rooms = [
   { name: "Closed", value: 101 },
@@ -45,6 +46,16 @@ const renderCustomizedLabel = ({
 };
 
 export default function AnalyticsPage() {
+  useEffect(() => {
+    axios
+      .get("https://api.jsonbin.io/b/627582ca38be296761fd6f90")
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <Section>
       <div className="container">
@@ -147,7 +158,6 @@ export default function AnalyticsPage() {
 const Section = styled.section`
   margin-left: 18vw;
   padding: 2rem;
-  height: 100%;
 
   .container {
     width: 100%;

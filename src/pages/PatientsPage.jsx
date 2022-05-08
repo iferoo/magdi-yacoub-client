@@ -8,12 +8,12 @@ export default function PatientsPage() {
   const [activeLink, setActiveLink] = useState(1);
 
   const handleActiveLink = () => {
-    pathname === "/patients/add-patient" ? setActiveLink(2) : setActiveLink(1);
+    pathname === "/patients/add" ? setActiveLink(2) : setActiveLink(1);
   };
 
   useEffect(() => {
     handleActiveLink();
-  });
+  }, [pathname]);
 
   return (
     <Section>
@@ -29,7 +29,7 @@ export default function PatientsPage() {
               View
             </Link>
             <Link
-              to="add-patient"
+              to="add"
               className={`${activeLink === 2 && "active"}`}
               onClick={() => setActiveLink(2)}
             >
@@ -48,7 +48,6 @@ export default function PatientsPage() {
 const Section = styled.section`
   margin-left: 18vw;
   padding: 2rem;
-  height: 100%;
 
   .container {
     width: 100%;
@@ -62,7 +61,6 @@ const Section = styled.section`
     }
     .top {
       padding: 1rem;
-      margin-bottom: 1rem;
       border-bottom: 1px solid #888888;
       display: flex;
       align-items: flex-start;
@@ -84,6 +82,9 @@ const Section = styled.section`
           color: #fff;
         }
       }
+    }
+    .down {
+      padding: 1rem;
     }
   }
 

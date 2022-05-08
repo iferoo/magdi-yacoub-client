@@ -1,45 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
+
 import styled from "styled-components";
 
-import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
-import { BiBed } from "react-icons/bi";
-import { rooms } from "../util/roomsData";
+
 
 export default function RoomsPage() {
-  const [bedToggle, setBedToggle] = useState(0);
+  const { pathname } = useLocation();
+  const [activeLink, setActiveLink] = useState(1);
+
+  const handleActiveLink = () => {
+    pathname === "/rooms/update"
+      ? setActiveLink(2)
+      : pathname === "/rooms/add"
+      ? setActiveLink(3)
+      : setActiveLink(1);
+  };
+
+  useEffect(() => {
+    handleActiveLink();
+  }, [pathname]);
+
   return (
     <Section>
       <div className="container">
         <div className="top">
           <h2>Rooms</h2>
+          <div>
+            <Link
+              to=""
+              className={`${activeLink === 1 && "active"}`}
+              onClick={() => setActiveLink(1)}
+            >
+              View
+            </Link>
+            <Link
+              to="update"
+              className={`${activeLink === 2 && "active"}`}
+              onClick={() => setActiveLink(2)}
+            >
+              Update
+            </Link>
+            <Link
+              to="add"
+              className={`${activeLink === 3 && "active"}`}
+              onClick={() => setActiveLink(3)}
+            >
+              Add
+            </Link>
+          </div>
         </div>
 
         <div className="down">
-          {rooms.map((room) => (
-            <div className="rooms" key={room.id}>
-              <div className="address">
-                <h3 className="name">{room.floorName} </h3>
-                {bedToggle === room.id ? (
-                  <IoMdArrowDropdown onClick={() => setBedToggle(0)} />
-                ) : (
-                  <IoMdArrowDropright onClick={() => setBedToggle(room.id)} />
-                )}
-              </div>
-              <div
-                className={`roomInfo ${bedToggle !== room.id ? "hide" : ""}`}
-                key={room.id + 1}
-              >
-                {room.beds.map((bed) => (
-                  <div key={bed.id} className={`beds ${bed.status}`}>
-                    <p>{bed.bedNumber}</p>
-                    <BiBed />
-                    <p>{bed.status}</p>
-                  </div>
-                ))}
-                <div className="line"></div>
-              </div>
-            </div>
-          ))}
+        <Outlet />
         </div>
       </div>
     </Section>
@@ -49,7 +62,6 @@ export default function RoomsPage() {
 const Section = styled.section`
   margin-left: 18vw;
   padding: 2rem;
-  height: 100%;
 
   .container {
     width: 100%;
@@ -61,60 +73,40 @@ const Section = styled.section`
     h2 {
       font-weight: 400;
     }
+    .top {
+      padding: 1rem;
+      border-bottom: 1px solid #888888;
+      display: flex;
+      align-items: flex-start;
+      align-content: flex-start;
+      justify-content: space-between;
+      div {
+        display: flex;
+        gap: 1rem;
+
+        a {
+          text-decoration: none;
+          color: #000;
+          border: 1px solid black;
+          border-radius: 1rem;
+          padding: 0.5rem;
+        }
+        .active {
+          background-color: #000;
+          color: #fff;
+        }
+      }
+    }
   }
+  .down{
+    padding: 1rem;
+  }
+
   .line {
     width: 90%;
     margin: 1rem auto;
     border: 0.3px solid #b9b9b9;
     border-radius: 1rem;
-  }
-  .top {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #888888;
-  }
-
-  .down {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .rooms {
-      .address {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin: 1rem 0;
-        svg {
-          font-size: 2rem;
-        }
-      }
-      .roomInfo {
-        width: 90%;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        margin: 0 auto;
-        .beds {
-          color: #888888;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          svg {
-            font-size: 4rem;
-          }
-        }
-        .free {
-          color: green;
-        }
-        .close {
-          color: var(--red);
-        }
-      }
-      .hide {
-        display: none;
-      }
-    }
   }
 
   @media screen and (min-width: 280px) and (max-width: 1080px) {

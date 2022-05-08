@@ -1,0 +1,317 @@
+{
+  "patients": [
+    {
+      "Name": "Momen Mekki",
+      "Room": "A-422",
+      "Status": "under medical supervision",
+      "Condition": "ide",
+      "Patientinfo": {
+        "Age": "25",
+        "Gender": "Male",
+        "RegisterDate": "1-2-2020",
+        "Branch": "Aswan Sail",
+        "Nurse": "Shima ahmed",
+        "Doctor": "Mostafa Mohamed"
+      },
+      "MedicalConditon": {
+        "Disease": "high heart blood",
+        "History": "1-2-2020",
+        "OtherDiseases": "insomia",
+        "Diabeyic": false,
+        "Smoker": true
+      },
+      "id": 1
+    },
+    {
+      "Name": "Motaz Samy",
+      "Room": "A-422",
+      "Status": "under medical supervision",
+      "Condition": "ide",
+      "Patientinfo": {
+        "Age": "25",
+        "Gender": "Male",
+        "RegisterDate": "1-5-2020",
+        "Branch": "Aswan Sail",
+        "Nurse": "Shima ahmed",
+        "Doctor": "Mostafa Mohamed"
+      },
+      "MedicalConditon": {
+        "Disease": "high heart blood",
+        "History": "1-9-2020",
+        "OtherDiseases": "insomia",
+        "Diabeyic": true,
+        "Smoker": true
+      },
+      "id": 2
+    },
+    {
+      "Name": "Disha",
+      "Room": "B-102",
+      "Status": "under medical supervision",
+      "Condition": "ide",
+      "Patientinfo": {
+        "Age": "28",
+        "Gender": "Male",
+        "RegisterDate": "10-5-2020",
+        "Branch": "Aswan Sail",
+        "Nurse": "Merna Antonios",
+        "Doctor": "Ahmed Mostafa"
+      },
+      "MedicalConditon": {
+        "Disease": "high heart blood",
+        "History": "1-2-2020",
+        "OtherDiseases": "insomia",
+        "Diabeyic": false,
+        "Smoker": true
+      },
+      "id": 3
+    },
+    {
+      "Name": "Eyad Mohamed",
+      "Room": "B-105",
+      "Status": "under medical supervision",
+      "Condition": "ide",
+      "Patientinfo": {
+        "Age": "24",
+        "Gender": "Male",
+        "RegisterDate": "10-5-2022",
+        "Branch": "Aswan Sail",
+        "Nurse": "Shima ahmed",
+        "Doctor": "Mostafa Mohamed"
+      },
+      "MedicalConditon": {
+        "Disease": "high heart blood",
+        "History": "1-2-2020",
+        "OtherDiseases": "insomia",
+        "Diabeyic": true,
+        "Smoker": false
+      },
+      "id": 5
+    },
+    {
+      "Name": "Ahmed Mekki",
+      "Room": "A-422",
+      "Status": "under medical supervision",
+      "Condition": "ide",
+      "Patientinfo": {
+        "Age": "26",
+        "Gender": "Male",
+        "RegisterDate": "10-5-2022",
+        "Branch": "Aswan Sail",
+        "Nurse": "Shima ahmed",
+        "Doctor": "Ahmed Mostafa"
+      },
+      "MedicalConditon": {
+        "Disease": "high heart blood",
+        "History": "1-2-2020",
+        "OtherDiseases": "insomia",
+        "Diabeyic": true,
+        "Smoker": true
+      },
+      "id": 6
+    },
+    {
+      "Name": "Mohamed Ibrahem",
+      "Room": "A-422",
+      "Status": "under medical supervision",
+      "Condition": "ide",
+      "Patientinfo": {
+        "Age": "25",
+        "Gender": "Female",
+        "RegisterDate": "7-9-2021",
+        "Branch": "Aswan Sail",
+        "Nurse": "Mona mostafa",
+        "Doctor": "Ahmed Nagy"
+      },
+      "MedicalConditon": {
+        "Disease": "asdasd",
+        "History": "1-2-2020",
+        "OtherDiseases": "asdasdasd",
+        "Diabeyic": false,
+        "Smoker": true
+      },
+      "id": 7
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "floorName": "A - Third floor",
+      "beds": [
+        {
+          "id": 1,
+          "bedNumber": 301,
+          "status": "full"
+        },
+        {
+          "id": 2,
+          "bedNumber": 302,
+          "status": "free"
+        },
+        {
+          "id": 3,
+          "bedNumber": 303,
+          "status": "full"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "floorName": "A - Forth floor",
+      "beds": [
+        {
+          "id": 1,
+          "bedNumber": 401,
+          "status": "full"
+        },
+        {
+          "id": 2,
+          "bedNumber": 402,
+          "status": "free"
+        },
+        {
+          "id": 3,
+          "bedNumber": 403,
+          "status": "full"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "floorName": "B - First floor",
+      "beds": [
+        {
+          "id": 1,
+          "bedNumber": 101,
+          "status": "close"
+        },
+        {
+          "id": 2,
+          "bedNumber": 102,
+          "status": "full"
+        },
+        {
+          "id": 3,
+          "bedNumber": 103,
+          "status": "full"
+        }
+      ]
+    }
+  ],
+  "Room": [
+    {
+      "roomName": "One",
+      "beds": [
+        {
+          "bedName": "test",
+          "status": "full"
+        },
+        {
+          "bedName": "sad",
+          "status": "full"
+        },
+        {
+          "bedName": "sad",
+          "status": "free"
+        }
+      ],
+      "id": 1
+    },
+    {
+      "roomName": "Two",
+      "beds": [
+        {
+          "bedName": "Bed One",
+          "status": "free"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "roomName": "Three",
+      "beds": [],
+      "id": 3
+    }
+  ],
+  "doctors": [
+    {
+      "Name": "Abd El kader Hegazi",
+      "Age": "28",
+      "Gender": "Male",
+      "Status": "vacation",
+      "id": 1
+    },
+    {
+      "Name": "Tamer Ahmed",
+      "Age": "28",
+      "Gender": "Male",
+      "Status": "vacation",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "Name": "Ibrahem Hegazi",
+      "Age": "28",
+      "Gender": "Male",
+      "Status": "nextShift"
+    },
+    {
+      "Name": "Menna Abdallah",
+      "Age": "28",
+      "Gender": "Female",
+      "Status": "onDuty",
+      "id": 4
+    },
+    {
+      "Name": "Ahmed Saleh",
+      "Age": "28",
+      "Gender": "Male",
+      "Status": "onDuty",
+      "id": 5
+    },
+    {
+      "Name": "Moustafa Saleh",
+      "Age": "28",
+      "Gender": "Male",
+      "Status": "nextShift",
+      "id": 6
+    }
+  ],
+  "nurses": [
+    {
+      "id": 1,
+      "Name": "Merna Mostafa",
+      "Age": "30",
+      "Gender": "Female",
+      "Status": "onDuty"
+    },
+    {
+      "id": 2,
+      "Name": "Fatma Hegazi",
+      "Age": "30",
+      "Gender": "Female",
+      "Status": "nextShift"
+    },
+    {
+      "id": 3,
+      "Name": "Shimaa Abdallah",
+      "Age": "30",
+      "Gender": "Female",
+      "Status": "vacation"
+    },
+    {
+      "Name": "Mona Talaat",
+      "Age": "30",
+      "Gender": "Female",
+      "Status": "vacation",
+      "id": 4
+    },
+    {
+      "Name": "Momen Mekki",
+      "Age": "23",
+      "Gender": "Female",
+      "Status": "onDuty",
+      "id": 5
+    }
+  ]
+}

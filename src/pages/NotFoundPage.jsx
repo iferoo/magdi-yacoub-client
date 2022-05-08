@@ -71,7 +71,7 @@ const Section = styled.section`
     .down {
       
       img {
-        width: 50vh;
+        width: 35vh;
       }
       p {
         font-size: 1.5rem;
