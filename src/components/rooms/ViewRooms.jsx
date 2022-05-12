@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
 import { BiBed } from "react-icons/bi";
@@ -7,45 +7,33 @@ import { rooms } from "../../util/roomsData";
 import styled from "styled-components";
 
 export default function ViewRooms() {
-  // const [rooms, setRooms] = useState([])
-  const [bedToggle, setBedToggle] = useState([]);
-  const [bedToggleUpdate, setBedToggleUpdate] = useState([]);
-  useEffect(() => {
-    console.log(bedToggleUpdate);
-  }, [bedToggleUpdate]);
+  const roomToggle = (id) => {
+    document.querySelectorAll(`#${id}`).forEach((element) => {
+      element.classList.toggle("hide");
+    });
+  };
+
   return (
     <Section>
       {rooms.map((room) => (
         <div className="rooms" key={room.id}>
           <div className="address">
             <h3 className="name">{room.floorName} </h3>
-            {bedToggle.find((bed) => bed == room.id) ? (
-              <IoMdArrowDropdown
-                onClick={() => {
-                  setBedToggleUpdate(
-                    bedToggle.splice(
-                      bedToggle.findIndex((bed) => bed == room.id),
-                      1
-                    )
-                  );
-                }}
-              />
-            ) : (
-              <IoMdArrowDropright
-                onClick={() => {
-                  bedToggle.find((bed) => bed == room.id)
-                    ? setBedToggle([...bedToggle])
-                    : setBedToggle([...bedToggle, room.id]);
-                }}
-              />
-            )}
+            <IoMdArrowDropdown
+              id={"R" + room.id}
+              className="hide"
+              onClick={() => {
+                roomToggle("R" + room.id);
+              }}
+            />
+            <IoMdArrowDropright
+              id={"R" + room.id}
+              onClick={() => {
+                roomToggle("R" + room.id);
+              }}
+            />
           </div>
-          <div
-            className={`roomInfo ${
-              bedToggle.find((bed) => bed == room.id) ? "" : "hide"
-            }`}
-            key={room.id}
-          >
+          <div id={"R" + room.id} className={`roomInfo hide`} key={room.id}>
             {room.beds.map((bed) => (
               <div key={bed.id} className={`beds ${bed.status}`}>
                 <p>{bed.bedNumber}</p>

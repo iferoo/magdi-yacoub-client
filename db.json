@@ -111,23 +111,23 @@
       "id": 6
     },
     {
-      "Name": "Mohamed Ibrahem",
-      "Room": "A-422",
+      "Name": "Tarek",
+      "Room": "A-101",
       "Status": "under medical supervision",
       "Condition": "ide",
       "Patientinfo": {
-        "Age": "25",
-        "Gender": "Female",
+        "Age": "23",
+        "Gender": "Male",
         "RegisterDate": "7-9-2021",
         "Branch": "Aswan Sail",
-        "Nurse": "Mona mostafa",
-        "Doctor": "Ahmed Nagy"
+        "Nurse": "Nesren Gamal",
+        "Doctor": "Ahmed Foda"
       },
       "MedicalConditon": {
-        "Disease": "asdasd",
+        "Disease": "Sessa sdsads",
         "History": "1-2-2020",
-        "OtherDiseases": "asdasdasd",
-        "Diabeyic": false,
+        "OtherDiseases": "Smmadsk",
+        "Diabeyic": true,
         "Smoker": true
       },
       "id": 7
@@ -310,7 +310,7 @@
       "Name": "Momen Mekki",
       "Age": "23",
       "Gender": "Female",
-      "Status": "onDuty",
+      "Status": "nextShift",
       "id": 5
     }
   ]
