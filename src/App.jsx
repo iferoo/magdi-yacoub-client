@@ -37,7 +37,7 @@ export default function App() {
     if (isLogin !== true) {
       navigate("/login");
     }
-  });
+  }, []);
 
   return (
     <>
