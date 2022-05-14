@@ -14,7 +14,7 @@ import { patientsUrl } from "../../util/url";
 
 import { succNotify, errNotify } from "../../util/Notification";
 
-export default function SearchPatient() {
+export default function ViewPatient() {
   const [patients, setPatients] = useState([]);
 
   const [patientSearch, setPatientSearch] = useState([]);

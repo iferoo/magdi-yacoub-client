@@ -44,10 +44,6 @@ export default function Sidebar() {
           </div>
 
           <div className={`links ${navbarState ? "showLinks" : ""}`}>
-            <NavLink to="/">
-              <BsFillChatTextFill />
-              <span> Analytics</span>
-            </NavLink>
             <NavLink
               to="/patients"
               className={`${
@@ -67,11 +63,15 @@ export default function Sidebar() {
               <MdEngineering />
               <span> Staff</span>
             </NavLink>
+            <NavLink to="/analytics">
+              <BsFillChatTextFill />
+              <span> Analytics</span>
+            </NavLink>
           </div>
         </div>
 
         <div className={`logout ${navbarState ? "showLogout" : ""}`}>
-          <Link to="/login">
+          <Link to="/login" onClick={sessionStorage.setItem("isLogin", false)}>
             <BiLogOut />
             <span> Logout</span>
           </Link>
