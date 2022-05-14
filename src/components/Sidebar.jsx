@@ -71,7 +71,10 @@ export default function Sidebar() {
         </div>
 
         <div className={`logout ${navbarState ? "showLogout" : ""}`}>
-          <Link to="/login" onClick={sessionStorage.setItem("isLogin", false)}>
+          <Link
+            to="/login"
+            onClick={() => sessionStorage.setItem("isLogin", false)}
+          >
             <BiLogOut />
             <span> Logout</span>
           </Link>

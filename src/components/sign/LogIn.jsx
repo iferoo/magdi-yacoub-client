@@ -12,11 +12,14 @@ export default function LogIn() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onSubmit = (data) => {
     console.log(data);
+    sessionStorage.setItem("isLogin", true);
+
     if (data.email == "admin@admin.com" && data.password == "admin") {
-      navigate("/patients");
       sessionStorage.setItem("isLogin", true);
+      navigate("/patients");
     }
   };
   console.log(errors);
@@ -38,9 +41,9 @@ export default function LogIn() {
 
       <div className="links">
         <div className="or">
-          <div/>
+          <div />
           <p>OR</p>
-          <div/>
+          <div />
         </div>
         <Link to="/signup">Sign Up</Link>
         <Link to="/forgetpassword">Forget Password!</Link>
