@@ -34,7 +34,7 @@ export default function App() {
   useEffect(() => {
     const isLogin = sessionStorage.getItem("isLogin");
 
-    if (isLogin == 'false') {
+    if (isLogin == 'false' || isLogin == null) {
       navigate("/login");
     }
   }, []);
