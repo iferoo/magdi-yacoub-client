@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import styled from "styled-components";
@@ -10,6 +10,7 @@ import { doctorsUrl, nursesUrl } from "../../util/url";
 import axios from "axios";
 
 export default function AddStaff() {
+  
   const {
     register,
     handleSubmit,
@@ -214,6 +215,5 @@ const Section = styled.section`
   }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
-   
   }
 `;

@@ -13,6 +13,8 @@ export default function UpdateStaff() {
   const [doctors, setDoctors] = useState([]);
   const [nurses, setNurses] = useState([]);
 
+  const [refreshUrl, setRefreshUrl] = useState(true);
+
   const [selectedField, setSelectedField] = useState("");
 
   const [activeStaffID, setActiveStaffID] = useState(0);
@@ -21,17 +23,18 @@ export default function UpdateStaff() {
     axios
       .get(doctorsUrl)
       .then((response) => {
-        setDoctors(response.data);
+        console.log(response.data.data);
+        setDoctors(response.data.data);
       })
       .catch((error) => {});
 
     axios
       .get(nursesUrl)
       .then((response) => {
-        setNurses(response.data);
+        setNurses(response.data.data);
       })
       .catch((error) => {});
-  }, []);
+  }, [refreshUrl]);
 
   const {
     register,
@@ -42,6 +45,7 @@ export default function UpdateStaff() {
     defaultValues: {
       staff: {
         Type: null,
+        id: null,
         Name: null,
         Age: null,
         Gender: "",
@@ -53,8 +57,8 @@ export default function UpdateStaff() {
   const onSubmit = (data) => {
     selectedField === "Doctor"
       ? axios
-          .put(doctorsUrl + `/${activeStaffID}`, {
-            Name: doctors.find((doctor) => doctor.id == activeStaffID).Name,
+          .put(doctorsUrl + `${activeStaffID}`, {
+            Name: data.staff.Name,
             Age: data.staff.Age,
             Gender: data.staff.Gender,
             Status: data.staff.Status,
@@ -63,11 +67,13 @@ export default function UpdateStaff() {
             // console.log(response);
             setValue("staff", {
               Type: "",
+              id: "",
               Name: "",
               Age: null,
               Gender: "",
               Status: "",
             });
+            setRefreshUrl(!refreshUrl);
             succNotify("Doctor Add Successfully");
           })
           .catch(function (error) {
@@ -76,8 +82,8 @@ export default function UpdateStaff() {
           })
       : selectedField === "Nurse"
       ? axios
-          .put(nursesUrl + `/${activeStaffID}`, {
-            Name: nurses.find((nurse) => nurse.id == activeStaffID).Name,
+          .put(nursesUrl + `${activeStaffID}`, {
+            Name: data.staff.Name,
             Age: data.staff.Age,
             Gender: data.staff.Gender,
             Status: data.staff.Status,
@@ -85,13 +91,14 @@ export default function UpdateStaff() {
           .then(function (response) {
             // console.log(response);
             setValue("staff", {
-              staff: {
-                Name: "",
-                Age: null,
-                Gender: "",
-                Status: "",
-              },
+              Type: "",
+              id: "",
+              Name: "",
+              Age: null,
+              Gender: "",
+              Status: "",
             });
+            setRefreshUrl(!refreshUrl);
             succNotify("Nurse Add Successfully");
           })
           .catch(function (error) {
@@ -109,7 +116,16 @@ export default function UpdateStaff() {
           <div className="inputAlign">
             <label htmlFor="type">Type</label>
             <select
-              onClick={(event) => setSelectedField(event.target.value)}
+              onClick={(event) => {
+                setSelectedField(event.target.value);
+                setValue("staff", {
+                  id: "",
+                  Name: "",
+                  Age: null,
+                  Gender: "",
+                  Status: "",
+                });
+              }}
               {...register("staff.Type", {})}
             >
               <option value="Doctor">Doctor</option>
@@ -117,11 +133,14 @@ export default function UpdateStaff() {
             </select>
           </div>
           <div className="inputAlign">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="id">id</label>
             <select
               onClick={(event) => {
                 selectedField === "Doctor"
                   ? setValue("staff", {
+                      Name: doctors.find(
+                        (doctor) => doctor.id == event.target.value
+                      ).Name,
                       Age: doctors.find(
                         (doctor) => doctor.id == event.target.value
                       ).Age,
@@ -133,6 +152,9 @@ export default function UpdateStaff() {
                       ).Status,
                     })
                   : setValue("staff", {
+                      Name: nurses.find(
+                        (nurse) => nurse.id == event.target.value
+                      ).Name,
                       Age: nurses.find(
                         (nurse) => nurse.id == event.target.value
                       ).Age,
@@ -146,24 +168,34 @@ export default function UpdateStaff() {
 
                 setActiveStaffID(event.target.value);
               }}
-              {...register("staff.Name", {})}
+              {...register("staff.id", {})}
             >
+              <option value="none" style={{ display: "none" }}></option>
               {selectedField === "Doctor" ? (
                 doctors.map((doctor) => (
                   <option value={doctor.id} key={doctor.id}>
-                    {doctor.Name}
+                    {doctor.id}
                   </option>
                 ))
               ) : selectedField === "Nurse" ? (
                 nurses.map((nurse) => (
                   <option value={nurse.id} key={nurse.id}>
-                    {nurse.Name}
+                    {nurse.id}
                   </option>
                 ))
               ) : (
                 <option value="none"></option>
               )}
             </select>
+          </div>
+          <div className="inputAlign">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              placeholder=""
+              {...register("staff.Name", { required: true })}
+            />
           </div>
           <div className="inputAlign">
             <label htmlFor="age">Age</label>
@@ -180,6 +212,7 @@ export default function UpdateStaff() {
               id="gender"
               {...register("staff.Gender", {
                 required: true,
+                disabled: true,
               })}
             >
               <option value="Male">Male</option>

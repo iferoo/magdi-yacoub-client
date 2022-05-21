@@ -10,11 +10,25 @@ import { IoMdArrowDropright } from "react-icons/io";
 
 import axios from "axios";
 
-import { patientsUrl } from "../../util/url";
+import {
+  patientsUrl,
+  roomUrl,
+  doctorsUrl,
+  nursesUrl,
+  bedUrl,
+} from "../../util/url";
 
 import { succNotify, errNotify } from "../../util/Notification";
 
 export default function ViewPatient() {
+  const [rooms, setRooms] = useState([]);
+  const [beds, setBeds] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+  const [nurses, setNurses] = useState([]);
+  const [refreshUrl, setRefreshUrl] = useState(true);
+
+  const [condition, setCondition] = useState("");
+
   const [patients, setPatients] = useState([]);
 
   const [patientSearch, setPatientSearch] = useState([]);
@@ -27,10 +41,50 @@ export default function ViewPatient() {
     (patient) => patient.id === activePatient
   );
 
+  useEffect(() => {
+    axios
+      .get(roomUrl)
+      .then((response) => {
+        setRooms(response.data.data);
+      })
+      .catch((error) => {});
+
+    axios
+      .get(doctorsUrl)
+      .then((response) => {
+        setDoctors(response.data.data);
+      })
+      .catch((error) => {});
+    axios
+      .get(nursesUrl)
+      .then((response) => {
+        setNurses(response.data.data);
+      })
+      .catch((error) => {});
+    axios
+      .get(bedUrl)
+      .then((response) => {
+        setBeds(response.data.data);
+      })
+      .catch((error) => {});
+  }, [refreshUrl]);
+
+  useEffect(() => {
+    // console.log(rooms);
+    // console.log(beds);
+    // console.log(doctors);
+    // console.log(nurses);
+    // console.log(patients);
+  }, [rooms, beds, doctors, nurses, patients]);
+
+  useEffect(() => {
+    // console.log(patients);
+  }, []);
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     // formState: { errors },
   } = useForm({
     defaultValues: {
@@ -39,55 +93,122 @@ export default function ViewPatient() {
         Name: "",
         MedicalID: null,
         Room: "",
+        Bed: "",
         Status: "",
         Condition: "",
-        Patientinfo: {
-          Age: null,
-          Gender: "",
-          RegisterDate: "",
-          Branch: "",
-          Nurse: "",
-          Doctor: "",
-        },
-        MedicalConditon: {
-          Disease: null,
-          History: "",
-          OtherDiseases: "",
-          Diabeyic: false,
-          Smoker: false,
-        },
+        Age: null,
+        Gender: "",
+        RegisterDate: "",
+        Branch: "",
+        Nurse: "",
+        Doctor: "",
+        Disease: null,
+        History: "",
+        OtherDiseases: "",
+        Diabeyic: false,
+        Smoker: false,
       },
     },
   });
 
   const onSubmit = (data) => {
+    // console.log(data);
     axios
-      .put(patientsUrl + `/${activePatient}`, {
+      .put(patientsUrl + `${activePatient}`, {
         Name: data.patient.Name,
-        Room: data.patient.Room,
         Status: data.patient.Status,
         Condition: data.patient.Condition,
-        Patientinfo: {
-          Age: data.patient.Patientinfo.Age,
-          Gender: data.patient.Patientinfo.Gender,
-          RegisterDate: data.patient.Patientinfo.RegisterDate,
-          Branch: data.patient.Patientinfo.Branch,
-          Nurse: data.patient.Patientinfo.Nurse,
-          Doctor: data.patient.Patientinfo.Doctor,
-        },
-        MedicalConditon: {
-          Disease: data.patient.MedicalConditon.Disease,
-          History: data.patient.MedicalConditon.History,
-          OtherDiseases: data.patient.MedicalConditon.OtherDiseases,
-          Diabeyic: data.patient.MedicalConditon.Diabeyic,
-          Smoker: data.patient.MedicalConditon.Smoker,
-        },
+        Age: data.patient.Age,
+        Gender: data.patient.Gender,
+        RegisterDate: data.patient.RegisterDate,
+        Branch: data.patient.Branch,
+        Disease: data.patient.Disease,
+        History: data.patient.History,
+        OtherDiseases: data.patient.OtherDiseases,
+        Diabeyic: data.patient.Diabeyic,
+        Smoker: data.patient.Smoker,
+        Bed: data.patient.Bed,
+        Nurse: data.patient.Nurse,
+        Doctor: data.patient.Doctor,
       })
       .then(function (response) {
         // console.log(response);
+        const bed = beds.find((bed) => bed.id == response.data.data.Bed);
+        // console.log(bed);
+        const room = rooms.find((room) => room.id == bed.RoomID);
+        // console.log(room);
+
+        const doctor = doctors.find(
+          (doctor) => doctor.id == response.data.data.Doctor
+        );
+        const nurse = nurses.find(
+          (nurse) => nurse.id == response.data.data.Nurse
+        );
         const Patients = [...patients];
-        Patients[patientIndex] = data.patient;
+
+        Patients[patientIndex] = {
+          id: response.data.data.id,
+          Name: data.patient.Name,
+          Status: data.patient.Status,
+          Condition: data.patient.Condition,
+          Age: data.patient.Age,
+          Gender: data.patient.Gender,
+          RegisterDate: data.patient.RegisterDate,
+          Branch: data.patient.Branch,
+          Disease: data.patient.Disease,
+          History: data.patient.History,
+          OtherDiseases: data.patient.OtherDiseases,
+          Diabeyic: data.patient.Diabeyic,
+          Smoker: data.patient.Smoker,
+          Bed: {
+            id: data.patient.Bed,
+            RoomID: {
+              id: room.id,
+              Name: room.Name,
+            },
+          },
+          Nurse: {
+            id: nurse.id,
+            Name: nurse.Name,
+            Age: nurse.Age,
+            Gender: nurse.Gender,
+            Email: nurse.Email,
+            Status: nurse.Status,
+          },
+          Doctor: {
+            id: doctor.id,
+            Name: doctor.Name,
+            Age: doctor.Age,
+            Gender: doctor.Gender,
+            Email: doctor.Email,
+            Status: doctor.Status,
+          },
+        };
+
+        setValue("patient", {
+          id: response.data.data.id,
+          Name: data.patient.Name,
+          MedicalID: null,
+          Room: room.id,
+          Bed: data.patient.Bed,
+          Status: data.patient.Status,
+          Condition: data.patient.Condition,
+          Age: data.patient.Age,
+          Gender: data.patient.Gender,
+          RegisterDate: data.patient.RegisterDate,
+          Branch: data.patient.Branch,
+          Nurse: nurse.id,
+          Doctor: doctor.id,
+          Disease: data.patient.Disease,
+          History: data.patient.History,
+          OtherDiseases: data.patient.OtherDiseases,
+          Diabeyic: data.patient.Diabeyic,
+          Smoker: data.patient.Smoker,
+        });
+        // console.log(Patients);
         setPatients(Patients);
+        setRefreshUrl(!refreshUrl);
+        setCondition(getValues("patient.Condition"));
         succNotify("Edit Patient Successfull");
       })
       .catch(function (error) {
@@ -99,9 +220,9 @@ export default function ViewPatient() {
 
   const handleRemove = () => {
     axios
-      .delete(patientsUrl + `/${activePatient}`)
+      .delete(patientsUrl + `${activePatient}`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         const Patients = [...patients];
         Patients.splice(patientIndex, 1);
 
@@ -112,23 +233,20 @@ export default function ViewPatient() {
           Name: "",
           MedicalID: null,
           Room: "",
+          Bed: "",
           Status: "",
           Condition: "",
-          Patientinfo: {
-            Age: null,
-            Gender: "",
-            RegisterDate: "",
-            Branch: "",
-            Nurse: "",
-            Doctor: "",
-          },
-          MedicalConditon: {
-            Disease: null,
-            History: "",
-            OtherDiseases: "",
-            Diabeyic: false,
-            Smoker: false,
-          },
+          Age: null,
+          Gender: "",
+          RegisterDate: "",
+          Branch: "",
+          Nurse: "",
+          Doctor: "",
+          Disease: null,
+          History: "",
+          OtherDiseases: "",
+          Diabeyic: false,
+          Smoker: false,
         });
         errNotify("Patient Removed");
       })
@@ -147,7 +265,8 @@ export default function ViewPatient() {
     axios
       .get(patientsUrl)
       .then((response) => {
-        setPatients(response.data);
+        // console.log(response.data);
+        setPatients(response.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -189,35 +308,42 @@ export default function ViewPatient() {
               <div
                 className="info"
                 onClick={() => {
+                  // setBeds(
+                  //   rooms.find((room) => room.id == patient.Bed.RoomID.id).Beds
+                  // );
+
+                  // console.log(patient);
+                  setCondition(getValues("patient.Condition"));
                   setActivePatient(patient.id);
                   setValue("patient", {
                     id: patient.id,
                     Name: patient.Name,
-                    MedicalID: patient.MedicalID,
-                    Room: patient.Room,
+                    MedicalID: patient.id,
+                    Room: patient.Bed.RoomID.id,
+                    Bed: patient.Bed.id,
                     Status: patient.Status,
                     Condition: patient.Condition,
-                    Patientinfo: {
-                      Age: patient.Patientinfo.Age,
-                      Gender: patient.Patientinfo.Gender,
-                      RegisterDate: patient.Patientinfo.RegisterDate,
-                      Branch: patient.Patientinfo.Branch,
-                      Nurse: patient.Patientinfo.Nurse,
-                      Doctor: patient.Patientinfo.Doctor,
-                    },
-                    MedicalConditon: {
-                      Disease: patient.MedicalConditon.Disease,
-                      History: patient.MedicalConditon.History,
-                      OtherDiseases: patient.MedicalConditon.OtherDiseases,
-                      Diabeyic: patient.MedicalConditon.Diabeyic,
-                      Smoker: patient.MedicalConditon.Smoker,
-                    },
+                    Age: patient.Age,
+                    Gender: patient.Gender,
+                    RegisterDate: patient.RegisterDate,
+                    Branch: patient.Branch,
+                    Nurse: patient.Nurse.id,
+                    Doctor: patient.Doctor.id,
+                    Disease: patient.Disease,
+                    History: patient.History,
+                    OtherDiseases: patient.OtherDiseases,
+                    Diabeyic: patient.Diabeyic,
+                    Smoker: patient.Smoker,
                   });
                 }}
               >
                 <h3>{patient.Name}</h3>
-                <h6>Patient ID: {patient.MedicalID}</h6>
-                <p>Room: {patient.Room}</p>
+                <h6>Patient ID: {patient.id}</h6>
+                {patient.Bed.id != null ? (
+                  <p>Room: {patient.Bed.RoomID.Name}</p>
+                ) : (
+                  <p>Room: undefine</p>
+                )}
               </div>
             </div>
           ))}
@@ -227,7 +353,7 @@ export default function ViewPatient() {
       <div className="right">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="patientProfile">
-            <img src="/assets/Patient.png" alt="patient" />
+            <img src="/assets/Patient.png" alt="patient image" />
             <div className="profile">
               <div className="inputAlign">
                 <label htmlFor="name">Name</label>
@@ -240,12 +366,50 @@ export default function ViewPatient() {
               </div>
               <div className="inputAlign">
                 <label htmlFor="room">Room</label>
-                <input
+                <select
                   id="room"
                   type="text"
                   placeholder=""
-                  {...register("patient.Room", {})}
-                />
+                  disabled={true}
+                  // onClick={(event) => {
+                  //   setBeds(
+                  //     rooms.find((room) => room.id == event.target.value).Beds
+                  //   );
+                  // }}
+                  {...register("patient.Room", {
+                    required: true,
+                  })}
+                >
+                  <option value="none" style={{ display: "none" }}></option>
+                  {rooms.map((room) => (
+                    <option key={room.id} value={room.id}>
+                      {room.Name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="inputAlign">
+                <label htmlFor="bed">Bed</label>
+                <select
+                  id="bed"
+                  type="text"
+                  placeholder=""
+                  {...register("patient.Bed", { required: true })}
+                >
+                  <option value="none" style={{ display: "none" }}></option>
+                  {beds.map((bed) => {
+                    if (
+                      bed.Patient == null ||
+                      bed.Patient.id == activePatient
+                    ) {
+                      return (
+                        <option key={bed.id} value={bed.id}>
+                          {bed.id}
+                        </option>
+                      );
+                    }
+                  })}
+                </select>
               </div>
               <div className="inputAlign">
                 <label htmlFor="status">Status</label>
@@ -257,13 +421,19 @@ export default function ViewPatient() {
                 />
               </div>
               <div className="inputAlign">
-                <label htmlFor="condition">Condition</label>
-                <input
+                <label className={condition} htmlFor="condition">
+                  Condition
+                </label>
+                <select
                   id="condition"
                   type="text"
                   placeholder=""
                   {...register("patient.Condition", {})}
-                />
+                >
+                  <option value="Stable">Stable</option>
+                  <option value="Dangerous">Dangerous</option>
+                  <option value="UnderControl">Under Control</option>
+                </select>
               </div>
             </div>
           </div>
@@ -278,15 +448,12 @@ export default function ViewPatient() {
                     id="age"
                     type="number"
                     placeholder=""
-                    {...register("patient.Patientinfo.Age", {})}
+                    {...register("patient.Age", {})}
                   />
                 </div>
                 <div className="inputAlign">
                   <label htmlFor="gender">Gender</label>
-                  <select
-                    id="gender"
-                    {...register("patient.Patientinfo.Gender", {})}
-                  >
+                  <select id="gender" {...register("patient.Gender", {})}>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
@@ -296,32 +463,50 @@ export default function ViewPatient() {
                   <input
                     type="datetime"
                     placeholder=""
-                    {...register("patient.Patientinfo.RegisterDate", {})}
+                    {...register("patient.RegisterDate", {})}
                   />
                 </div>
               </div>
               <div className="rightInfo">
                 <div className="inputAlign">
                   <label htmlFor="branch">Branch</label>
-                  <select {...register("patient.Patientinfo.Branch", {})}>
+                  <select {...register("patient.Branch", {})}>
                     <option value="Aswan Sail">Aswan Sail</option>
                   </select>
                 </div>
                 <div className="inputAlign">
                   <label htmlFor="nurse">Nurse</label>
-                  <input
+                  <select
                     type="text"
                     placeholder=""
-                    {...register("patient.Patientinfo.Nurse", {})}
-                  />
+                    {...register("patient.Nurse", {})}
+                  >
+                    <option value="none" style={{ display: "none" }}></option>
+                    {nurses.map((nurse) => {
+                      return (
+                        <option key={nurse.id} value={nurse.id}>
+                          {nurse.Name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div className="inputAlign">
                   <label htmlFor="doctor">Doctor</label>
-                  <input
+                  <select
                     type="text"
                     placeholder=""
-                    {...register("patient.Patientinfo.Doctor", {})}
-                  />
+                    {...register("patient.Doctor", {})}
+                  >
+                    <option value="none" style={{ display: "none" }}></option>
+                    {doctors.map((doctor) => {
+                      return (
+                        <option key={doctor.id} value={doctor.id}>
+                          {doctor.Name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
             </div>
@@ -336,7 +521,7 @@ export default function ViewPatient() {
                   <input
                     type="text"
                     placeholder=""
-                    {...register("patient.MedicalConditon.Disease", {})}
+                    {...register("patient.Disease", {})}
                   />
                 </div>
                 <div className="inputAlign">
@@ -344,7 +529,7 @@ export default function ViewPatient() {
                   <input
                     type="datetime"
                     placeholder=""
-                    {...register("patient.MedicalConditon.History", {})}
+                    {...register("patient.History", {})}
                   />
                 </div>
                 <div className="inputAlign">
@@ -352,7 +537,7 @@ export default function ViewPatient() {
                   <input
                     type="text"
                     placeholder=""
-                    {...register("patient.MedicalConditon.OtherDiseases", {})}
+                    {...register("patient.OtherDiseases", {})}
                   />
                 </div>
               </div>
@@ -362,7 +547,7 @@ export default function ViewPatient() {
                   <input
                     type="checkbox"
                     placeholder=""
-                    {...register("patient.MedicalConditon.Diabeyic", {})}
+                    {...register("patient.Diabeyic", {})}
                   />
                 </div>
                 <div className="inputAlign">
@@ -370,7 +555,7 @@ export default function ViewPatient() {
                   <input
                     type="checkbox"
                     placeholder=""
-                    {...register("patient.MedicalConditon.Smoker", {})}
+                    {...register("patient.Smoker", {})}
                   />
                 </div>
               </div>
@@ -471,6 +656,7 @@ const Section = styled.section`
           display: flex;
           flex-direction: column;
           gap: 0.2rem;
+          width: -webkit-fill-available;
           h6 {
             font-weight: 200;
           }
@@ -510,9 +696,10 @@ const Section = styled.section`
       align-items: center;
       justify-content: space-between;
       img {
-        padding: 1rem;
-        width: 30%;
+        width: 25vh;
+        height: 25vh;
         border-radius: 50%;
+        border: 1px solid black;
       }
       .profile {
         width: 60%;
@@ -599,9 +786,19 @@ const Section = styled.section`
     .inputAlign {
       display: flex;
       align-items: center;
+      .Stable {
+        color: green;
+      }
+      .Dangerous {
+        color: red;
+      }
+      .UnderControl {
+        color: #00c49f;
+      }
       label {
         width: 30%;
       }
+
       input {
         width: 70%;
       }

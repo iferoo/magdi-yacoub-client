@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
 import { BiBed } from "react-icons/bi";
@@ -6,7 +6,23 @@ import { rooms } from "../../util/roomsData";
 
 import styled from "styled-components";
 
+import { roomUrl } from "../../util/url";
+
+import axios from "axios";
+
 export default function ViewRooms() {
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(roomUrl)
+      .then((response) => {
+        console.log(response.data.data);
+        setRooms(response.data.data);
+      })
+      .catch((error) => {});
+  }, []);
+
   const roomToggle = (id) => {
     document.querySelectorAll(`#${id}`).forEach((element) => {
       element.classList.toggle("hide");
@@ -18,7 +34,7 @@ export default function ViewRooms() {
       {rooms.map((room) => (
         <div className="rooms" key={room.id}>
           <div className="address">
-            <h3 className="name">{room.floorName} </h3>
+            <h3 className="name">{room.Name} </h3>
             <IoMdArrowDropdown
               id={"R" + room.id}
               className="hide"
@@ -34,11 +50,14 @@ export default function ViewRooms() {
             />
           </div>
           <div id={"R" + room.id} className={`roomInfo hide`} key={room.id}>
-            {room.beds.map((bed) => (
-              <div key={bed.id} className={`beds ${bed.status}`}>
-                <p>{bed.bedNumber}</p>
+            {room.Beds.map((bed) => (
+              <div
+                key={bed.id}
+                className={`beds ${bed.Patient == null ? "free" : "full"}`}
+              >
+                <p>{bed.Patient ? bed.Patient.Name : "--"}</p>
                 <BiBed />
-                <p>{bed.status}</p>
+                <p>{bed.Patient == null ? "free" : "full"}</p>
               </div>
             ))}
           </div>

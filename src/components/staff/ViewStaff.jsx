@@ -24,7 +24,7 @@ export default function ViewStaff() {
     axios
       .get(doctorsUrl)
       .then((response) => {
-        const doctors = response.data;
+        const doctors = response.data.data;
         setDoctorsFilterd({
           onDuty: doctors.filter((doctor) => doctor.Status === "onDuty"),
           nextShift: doctors.filter((doctor) => doctor.Status === "nextShift"),
@@ -38,7 +38,7 @@ export default function ViewStaff() {
       .get(nursesUrl)
       .then((response) => {
         // console.log(response.data);
-        const nurses = response.data;
+        const nurses = response.data.data;
         setNursesFiltered({
           onDuty: nurses.filter((Nurse) => Nurse.Status === "onDuty"),
           nextShift: nurses.filter((Nurse) => Nurse.Status === "nextShift"),

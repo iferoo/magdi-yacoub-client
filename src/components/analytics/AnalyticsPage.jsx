@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { PieChart, Pie, Cell } from "recharts";
+
+import { bedUrl } from "../../util/url";
+
 import axios from "axios";
 
 const rooms = [
-  { name: "Closed", value: 101 },
-  { name: "Occupied", value: 635 },
-  { name: "Free", value: 262 },
+  { name: "Full", value: 25 },
+  { name: "Free", value: 25 },
 ];
 
 const patients = [
@@ -15,7 +17,7 @@ const patients = [
   { name: "Under Control", value: 390 },
   { name: "Stable", value: 510 },
 ];
-const RCOLORS = ["#ff2828", "#0088FE", "#00C49F"];
+const RCOLORS = ["#73777B", "#91C483"];
 const PCOLORS = ["#ff2828", "#a1df3f", "#00C49F"];
 
 const RADIAN = Math.PI / 180;
@@ -46,11 +48,20 @@ const renderCustomizedLabel = ({
 };
 
 export default function AnalyticsPage() {
+  const [beds, setBeds] = useState({
+    full: 0,
+    free: 0,
+  });
   useEffect(() => {
     axios
-      .get("https://api.jsonbin.io/b/627582ca38be296761fd6f90")
+      .get(bedUrl)
       .then((response) => {
         console.log(response);
+        console.log(response.data.data.filter(res=> res.Patient == null).length)
+        setBeds({
+          full: response.data.data.filter(res=> res.Patient == null).length,
+          free: response.data.data.filter(res=> res.Patient == null).length,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -102,10 +113,6 @@ export default function AnalyticsPage() {
               <div>
                 <span className={rooms[1].name}></span>
                 <p>{rooms[1].name}</p>
-              </div>
-              <div>
-                <span className={rooms[2].name}></span>
-                <p>{rooms[2].name}</p>
               </div>
             </div>
           </div>
@@ -221,19 +228,20 @@ const Section = styled.section`
           p {
             width: 80%;
           }
-          .Closed,
           .Dangerous {
             background-color: #ff2828;
           }
-          .Occupied {
-            background-color: #0088fe;
-          }
-          .Free,
           .Stable {
             background-color: #00c49f;
           }
           .Under {
             background-color: #a1df3f;
+          }
+          .Free {
+            background-color: #91c483;
+          }
+          .Full {
+            background-color: #73777b;
           }
         }
       }
