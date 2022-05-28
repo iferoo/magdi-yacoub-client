@@ -16,6 +16,7 @@ import {
   doctorsUrl,
   nursesUrl,
   bedUrl,
+  url,
 } from "../../util/url";
 
 import { succNotify, errNotify } from "../../util/Notification";
@@ -26,8 +27,6 @@ export default function ViewPatient() {
   const [doctors, setDoctors] = useState([]);
   const [nurses, setNurses] = useState([]);
   const [refreshUrl, setRefreshUrl] = useState(true);
-
-  const [condition, setCondition] = useState("");
 
   const [patients, setPatients] = useState([]);
 
@@ -42,6 +41,15 @@ export default function ViewPatient() {
   );
 
   useEffect(() => {
+    axios
+      .get(patientsUrl)
+      .then((response) => {
+        console.log(response.data);
+        setPatients(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     axios
       .get(roomUrl)
       .then((response) => {
@@ -78,8 +86,12 @@ export default function ViewPatient() {
   }, [rooms, beds, doctors, nurses, patients]);
 
   useEffect(() => {
-    // console.log(patients);
-  }, []);
+    const patientsFilterd = patients.filter((patient) => {
+      return patient.Name.toLocaleLowerCase().includes(patientSearch);
+    });
+    setFilterPatients(patientsFilterd);
+  }, [patients, patientSearch]);
+
   const {
     register,
     handleSubmit,
@@ -90,6 +102,7 @@ export default function ViewPatient() {
     defaultValues: {
       patient: {
         id: null,
+        Img: null,
         Name: "",
         MedicalID: null,
         Room: "",
@@ -187,6 +200,7 @@ export default function ViewPatient() {
 
         setValue("patient", {
           id: response.data.data.id,
+          Img: response.data.data.Img,
           Name: data.patient.Name,
           MedicalID: null,
           Room: room.id,
@@ -208,7 +222,6 @@ export default function ViewPatient() {
         // console.log(Patients);
         setPatients(Patients);
         setRefreshUrl(!refreshUrl);
-        setCondition(getValues("patient.Condition"));
         succNotify("Edit Patient Successfull");
       })
       .catch(function (error) {
@@ -261,25 +274,6 @@ export default function ViewPatient() {
     setPatientSearch(patientName);
   };
 
-  useEffect(() => {
-    axios
-      .get(patientsUrl)
-      .then((response) => {
-        // console.log(response.data);
-        setPatients(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    const patientsFilterd = patients.filter((patient) => {
-      return patient.Name.toLocaleLowerCase().includes(patientSearch);
-    });
-    setFilterPatients(patientsFilterd);
-  }, [patients, patientSearch]);
-
   return (
     <Section>
       <div className="left">
@@ -308,15 +302,13 @@ export default function ViewPatient() {
               <div
                 className="info"
                 onClick={() => {
-                  // setBeds(
-                  //   rooms.find((room) => room.id == patient.Bed.RoomID.id).Beds
-                  // );
-
+                  // setBeds([...beds, patient.Bed]);
+                  // console.log(beds)
                   // console.log(patient);
-                  setCondition(getValues("patient.Condition"));
                   setActivePatient(patient.id);
                   setValue("patient", {
                     id: patient.id,
+                    Img: patient.Img,
                     Name: patient.Name,
                     MedicalID: patient.id,
                     Room: patient.Bed.RoomID.id,
@@ -335,6 +327,7 @@ export default function ViewPatient() {
                     Diabeyic: patient.Diabeyic,
                     Smoker: patient.Smoker,
                   });
+                  console.log(patient.Img);
                 }}
               >
                 <h3>{patient.Name}</h3>
@@ -353,7 +346,14 @@ export default function ViewPatient() {
       <div className="right">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="patientProfile">
-            <img src="/assets/Patient.png" alt="patient image" />
+            <img
+              src={`${
+                getValues("patient.Img") != null
+                  ? url + getValues("patient.Img")
+                  : "assets/Patient.png"
+              }`}
+              alt="patient image"
+            />
             <div className="profile">
               <div className="inputAlign">
                 <label htmlFor="name">Name</label>
@@ -398,16 +398,18 @@ export default function ViewPatient() {
                 >
                   <option value="none" style={{ display: "none" }}></option>
                   {beds.map((bed) => {
-                    if (
-                      bed.Patient == null ||
-                      bed.Patient.id == activePatient
-                    ) {
-                      return (
-                        <option key={bed.id} value={bed.id}>
-                          {bed.id}
-                        </option>
-                      );
-                    }
+                    return (
+                      <option
+                        key={bed.id}
+                        value={bed.id}
+                        hidden={
+                          bed.Patient != null &&
+                          bed.Patient.id != getValues("patient.id")
+                        }
+                      >
+                        {bed.id}
+                      </option>
+                    );
                   })}
                 </select>
               </div>
@@ -421,7 +423,10 @@ export default function ViewPatient() {
                 />
               </div>
               <div className="inputAlign">
-                <label className={condition} htmlFor="condition">
+                <label
+                  className={getValues("patient.Condition")}
+                  htmlFor="condition"
+                >
                   Condition
                 </label>
                 <select
@@ -461,7 +466,7 @@ export default function ViewPatient() {
                 <div className="inputAlign">
                   <label htmlFor="name">Register Date</label>
                   <input
-                    type="datetime"
+                    type="date"
                     placeholder=""
                     {...register("patient.RegisterDate", {})}
                   />
@@ -527,7 +532,7 @@ export default function ViewPatient() {
                 <div className="inputAlign">
                   <label htmlFor="history">History</label>
                   <input
-                    type="datetime"
+                    type="date"
                     placeholder=""
                     {...register("patient.History", {})}
                   />
@@ -699,7 +704,6 @@ const Section = styled.section`
         width: 25vh;
         height: 25vh;
         border-radius: 50%;
-        border: 1px solid black;
       }
       .profile {
         width: 60%;

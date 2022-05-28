@@ -55,6 +55,7 @@ export default function AddPatient() {
     defaultValues: {
       patient: {
         id: null,
+        Img: null,
         Name: "",
         MedicalID: null,
         Room: "",
@@ -74,27 +75,44 @@ export default function AddPatient() {
       },
     },
   });
+  // const onImgChange = (e) => {
+  //   const file = e.target.files[0];
+  //   const storageRef = app.storage().ref();
+  //   const fileRef = storageRef.child(file.name);
+  //   fileRef.put(file).then(() => {
+  //     console.log("uploaded a file");
+  //   });
+  // };
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data.patient.Img[0]);
     axios
-      .post(patientsUrl, {
-        Name: data.patient.Name,
-        Status: data.patient.Status,
-        Condition: data.patient.Condition,
-        Bed: data.patient.Bed,
-        Age: data.patient.Age,
-        Gender: data.patient.Gender,
-        RegisterDate: data.patient.RegisterDate,
-        Branch: data.patient.Branch,
-        Disease: data.patient.Disease,
-        History: data.patient.History,
-        OtherDiseases: data.patient.OtherDiseases,
-        Diabeyic: data.patient.Diabeyic,
-        Smoker: data.patient.Smoker,
-        Nurse: data.patient.Nurse,
-        Doctor: data.patient.Doctor,
-      })
+      .post(
+        patientsUrl,
+        {
+          Img: data.patient.Img[0],
+          Name: data.patient.Name,
+          Status: data.patient.Status,
+          Condition: data.patient.Condition,
+          Bed: data.patient.Bed,
+          Age: data.patient.Age,
+          Gender: data.patient.Gender,
+          RegisterDate: data.patient.RegisterDate,
+          Branch: data.patient.Branch,
+          Disease: data.patient.Disease,
+          History: data.patient.History,
+          OtherDiseases: data.patient.OtherDiseases,
+          Diabeyic: data.patient.Diabeyic,
+          Smoker: data.patient.Smoker,
+          Nurse: data.patient.Nurse,
+          Doctor: data.patient.Doctor,
+        },
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        }
+      )
       .then(function (response) {
         // console.log(response);
         setRefreshUrl(!refreshUrl);
@@ -130,7 +148,12 @@ export default function AddPatient() {
     <Section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="patientProfile">
-          <img src="/assets/Patient.png" alt="patient" />
+          {/* <img src="/assets/Patient.png" alt="patient" /> */}
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/gif"
+            {...register("patient.Img", {})}
+          />
           <div className="profile">
             <div className="inputAlign">
               <label htmlFor="name">Name</label>
@@ -138,7 +161,7 @@ export default function AddPatient() {
                 id="name"
                 type="text"
                 placeholder=""
-                {...register("patient.Name", { required: true })}
+                {...register("patient.Name" /* { required: true } */)}
               />
             </div>
             <div className="inputAlign">
@@ -152,7 +175,7 @@ export default function AddPatient() {
                     rooms.find((room) => room.id == event.target.value).Beds
                   )
                 }
-                {...register("patient.Room", { required: true })}
+                {...register("patient.Room" /* { required: true } */)}
               >
                 <option value="none" style={{ display: "none" }}></option>
                 {rooms.map((room) => (
@@ -168,7 +191,7 @@ export default function AddPatient() {
                 id="bed"
                 type="text"
                 placeholder=""
-                {...register("patient.Bed", { required: true })}
+                {...register("patient.Bed" /* { required: true } */)}
               >
                 <option value="none" style={{ display: "none" }}></option>
                 {beds.map((bed) => {
@@ -188,7 +211,7 @@ export default function AddPatient() {
                 id="status"
                 type="text"
                 placeholder=""
-                {...register("patient.Status", { required: true })}
+                {...register("patient.Status" /* { required: true } */)}
               />
             </div>
             <div className="inputAlign">
@@ -217,16 +240,14 @@ export default function AddPatient() {
                   id="age"
                   type="number"
                   placeholder=""
-                  {...register("patient.Age", { required: true })}
+                  {...register("patient.Age" /* { required: true } */)}
                 />
               </div>
               <div className="inputAlign">
                 <label htmlFor="gender">Gender</label>
                 <select
                   id="gender"
-                  {...register("patient.Gender", {
-                    required: true,
-                  })}
+                  {...register("patient.Gender" /* { required: true } */)}
                 >
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -235,11 +256,9 @@ export default function AddPatient() {
               <div className="inputAlign">
                 <label htmlFor="name">Register Date</label>
                 <input
-                  type="datetime"
+                  type="date"
                   placeholder=""
-                  {...register("patient.RegisterDate", {
-                    required: true,
-                  })}
+                  {...register("patient.RegisterDate" /* { required: true } */)}
                 />
               </div>
             </div>
@@ -247,9 +266,7 @@ export default function AddPatient() {
               <div className="inputAlign">
                 <label htmlFor="branch">Branch</label>
                 <select
-                  {...register("patient.Branch", {
-                    required: true,
-                  })}
+                  {...register("patient.Branch" /* { required: true } */)}
                 >
                   <option value="Aswan Sail">Aswan Sail</option>
                 </select>
@@ -259,7 +276,7 @@ export default function AddPatient() {
                 <select
                   type="text"
                   placeholder=""
-                  {...register("patient.Nurse", { required: true })}
+                  {...register("patient.Nurse" /* { required: true } */)}
                 >
                   <option value="none" style={{ display: "none" }}></option>
                   {nurses.map((nurse) => (
@@ -274,9 +291,7 @@ export default function AddPatient() {
                 <select
                   type="text"
                   placeholder=""
-                  {...register("patient.Doctor", {
-                    required: true,
-                  })}
+                  {...register("patient.Doctor" /* { required: true } */)}
                 >
                   <option value="none" style={{ display: "none" }}></option>
                   {doctors.map((doctor) => (
@@ -299,19 +314,15 @@ export default function AddPatient() {
                 <input
                   type="text"
                   placeholder=""
-                  {...register("patient.Disease", {
-                    required: true,
-                  })}
+                  {...register("patient.Disease" /* { required: true } */)}
                 />
               </div>
               <div className="inputAlign">
                 <label htmlFor="history">History</label>
                 <input
-                  type="datetime"
+                  type="date"
                   placeholder=""
-                  {...register("patient.History", {
-                    required: true,
-                  })}
+                  {...register("patient.History" /* { required: true } */)}
                 />
               </div>
               <div className="inputAlign">
@@ -319,9 +330,9 @@ export default function AddPatient() {
                 <input
                   type="text"
                   placeholder=""
-                  {...register("patient.OtherDiseases", {
-                    required: true,
-                  })}
+                  {...register(
+                    "patient.OtherDiseases" /* { required: true } */
+                  )}
                 />
               </div>
             </div>

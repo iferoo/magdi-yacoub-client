@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
@@ -11,7 +11,13 @@ import { BiLogOut } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import { GiHamburgerMenu } from "react-icons/gi";
 
+import { logoutUrl } from "../util/url";
+
+import axios from "axios";
+
 export default function Sidebar() {
+  const navigate = useNavigate();
+
   const { pathname } = useLocation();
 
   const [navbarState, setNavbarState] = useState(false);
@@ -73,7 +79,10 @@ export default function Sidebar() {
         <div className={`logout ${navbarState ? "showLogout" : ""}`}>
           <Link
             to="/login"
-            onClick={() => sessionStorage.setItem("isLogin", false)}
+            onClick={() => {
+              localStorage.removeItem("token");
+              navigate("/login");
+            }}
           >
             <BiLogOut />
             <span> Logout</span>

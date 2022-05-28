@@ -27,7 +27,7 @@ const Section = styled.section`
   .left {
     width: 60%;
     height: inherit;
-    background-image: url("/assets/Surgery.jpg");
+    background-image: url("/assets/Surgery2.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

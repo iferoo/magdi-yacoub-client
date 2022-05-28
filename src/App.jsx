@@ -27,14 +27,18 @@ import AppPages from "./pages/AppPages";
 
 import NotFoundPage from "./pages/NotFoundPage";
 import Analytics from "./components/analytics/AnalyticsPage";
+import TodayAnalytics from "./components/analytics/TodayAnalytics";
+import WeekAnalytics from "./components/analytics/WeekAnalytics";
+import MonthAnalytics from "./components/analytics/MonthAnalytics";
+import YearAnalytics from "./components/analytics/YearAnalytics";
 
 export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isLogin = sessionStorage.getItem("isLogin");
-
-    if (isLogin == 'false' || isLogin == null) {
+    // const token = localStorage.getItem("isLogin");
+    // console.log(localStorage.getItem("token"))
+    if (localStorage.getItem("token") == null) {
       navigate("/login");
     }
   }, []);
@@ -58,7 +62,13 @@ export default function App() {
             <Route path="Update" element={<UpdateStaff />} />
             <Route path="add" element={<AddStaff />} />
           </Route>
-          <Route path="analytics" element={<Analytics />} />
+          <Route path="analytics" element={<Analytics />}>
+            <Route index element={<Navigate to="today" replace />} />
+            <Route path="today" element={<TodayAnalytics />} />
+            <Route path="week" element={<WeekAnalytics />} />
+            <Route path="month" element={<MonthAnalytics />} />
+            <Route path="year" element={<YearAnalytics />} />
+          </Route>
         </Route>
         <Route path="/" element={<SignPage />}>
           <Route path="login" element={<LogIn />} />
