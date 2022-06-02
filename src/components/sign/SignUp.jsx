@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -7,12 +7,14 @@ import { registerUrl } from "../../util/url";
 
 import { errNotify } from "../../util/Notification";
 
-import axios from "axios";
+import styled from "styled-components";
 
+import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [signupError, setSignupError] = useState(false);
 
   const {
     register,
@@ -50,19 +52,11 @@ export default function SignUp() {
           localStorage.setItem("token", response.data.token);
           navigate("/patients");
         }
-        // setValue("user", {
-        //   firstName: "",
-        //   lastName: "",
-        //   username: "",
-        //   password: "",
-        //   email: "",
-        // });
       })
       .catch(function (error) {
         console.log(error);
-        errNotify("error!");
+        setSignupError(true)
       });
-      
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -93,6 +87,11 @@ export default function SignUp() {
       />
       <input type="submit" className="submit" value="Sign Up" />
       <div className="links">
+        <LoginNotification
+          style={{ display: `${signupError ? "block" : "none"}` }}
+        >
+          This username is already exist.
+        </LoginNotification>
         <div className="or">
           <div />
           <p>OR</p>
@@ -103,3 +102,12 @@ export default function SignUp() {
     </form>
   );
 }
+const LoginNotification = styled.div`
+  background-color: var(--red);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: white;
+  width: 100%;
+  font-size: 1rem;
+  text-align: center;
+`;
