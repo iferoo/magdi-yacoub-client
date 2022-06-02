@@ -7,15 +7,15 @@ export default function StaffPage() {
   const { pathname } = useLocation();
   const [activeLink, setActiveLink] = useState(1);
 
-  const handleActiveLink = () => {
-    pathname === "/staff/update"
-      ? setActiveLink(2)
-      : pathname === "/staff/add"
-      ? setActiveLink(3)
-      : setActiveLink(1);
-  };
-
   useEffect(() => {
+    const handleActiveLink = () => {
+      pathname === "/staff/update"
+        ? setActiveLink(2)
+        : pathname === "/staff/add"
+        ? setActiveLink(3)
+        : setActiveLink(1);
+    };
+
     handleActiveLink();
   }, [pathname]);
 

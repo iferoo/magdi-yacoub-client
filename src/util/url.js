@@ -3,10 +3,9 @@
 // export const roomUrl = `${url}/Room`;
 // export const doctorsUrl = `${url}/doctors`;
 // export const nursesUrl = `${url}/nurses`;
-import axios from "axios";
 
-export const url = "http://127.0.0.1:8000";
-export const hospitalUrl = "http://127.0.0.1:8000/hospital";
+export const url = "https://feroogbas.pythonanywhere.com/";
+export const hospitalUrl = "https://feroogbas.pythonanywhere.com/hospital";
 // export const url = "https://132f-156-202-242-19.eu.ngrok.io/hospital";
 export const patientsUrl = `${hospitalUrl}/patient/`;
 export const roomUrl = `${hospitalUrl}/room/`;

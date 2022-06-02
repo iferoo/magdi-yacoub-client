@@ -3,21 +3,19 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 
 import styled from "styled-components";
 
-
-
 export default function RoomsPage() {
   const { pathname } = useLocation();
   const [activeLink, setActiveLink] = useState(1);
 
-  const handleActiveLink = () => {
-    pathname === "/rooms/update"
-      ? setActiveLink(2)
-      : pathname === "/rooms/add"
-      ? setActiveLink(3)
-      : setActiveLink(1);
-  };
-
   useEffect(() => {
+    const handleActiveLink = () => {
+      pathname === "/rooms/update"
+        ? setActiveLink(2)
+        : pathname === "/rooms/add"
+        ? setActiveLink(3)
+        : setActiveLink(1);
+    };
+
     handleActiveLink();
   }, [pathname]);
 
@@ -52,7 +50,7 @@ export default function RoomsPage() {
         </div>
 
         <div className="down">
-        <Outlet />
+          <Outlet />
         </div>
       </div>
     </Section>
@@ -98,7 +96,7 @@ const Section = styled.section`
       }
     }
   }
-  .down{
+  .down {
     padding: 1rem;
   }
 

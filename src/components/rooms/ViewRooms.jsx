@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
 import { BiBed } from "react-icons/bi";
-import { rooms } from "../../util/roomsData";
 
 import styled from "styled-components";
 

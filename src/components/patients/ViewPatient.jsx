@@ -352,7 +352,7 @@ export default function ViewPatient() {
                   ? url + getValues("patient.Img")
                   : "assets/Patient.png"
               }`}
-              alt="patient image"
+              alt="patient"
             />
             <div className="profile">
               <div className="inputAlign">
@@ -402,7 +402,7 @@ export default function ViewPatient() {
                       <option
                         key={bed.id}
                         value={bed.id}
-                        hidden={
+                        disabled={
                           bed.Patient != null &&
                           bed.Patient.id != getValues("patient.id")
                         }

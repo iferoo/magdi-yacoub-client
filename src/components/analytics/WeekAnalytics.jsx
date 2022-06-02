@@ -20,28 +20,12 @@ export default function WeekAnalytics() {
   ]);
 
   useEffect(() => {
-    // axios
-    //   .get(roomUrl)
-    //   .then((response) => {
-    //     const rooms = response.data.data;
-    //     const beds = rooms.map((room) => room.Beds);
-
-    //     const freeBeds = beds.map((bed) => {
-    //       bed.map((item) => {
-    //         if (item.Patient != null) {
-    //           console.log(item);
-    //         }
-    //       });
-    //     });
-    //   })
-    //   .catch((error) => {});
-
     axios
       .get(bedUrl)
       .then((response) => {
-        const beds = response.data.data;
-        const freeBeds = beds.filter((bed) => bed.Patient == null);
-        const busyBeds = beds.filter((bed) => bed.Patient != null);
+        // const beds = response.data.data;
+        // const freeBeds = beds.filter((bed) => bed.Patient == null);
+        // const busyBeds = beds.filter((bed) => bed.Patient != null);
         setRooms([
           { name: "Full", value: 8 },
           { name: "Free", value: 2 },
@@ -51,17 +35,17 @@ export default function WeekAnalytics() {
     axios
       .get(patientsUrl)
       .then((response) => {
-        const patients = response.data.data;
-        const stablePatients = patients.filter(
-          (patient) => patient.Condition == "Stable"
-        );
-        const dangrousPatients = patients.filter(
-          (patient) => patient.Condition == "Dangerous"
-        );
-        const underControlPatients = patients.filter(
-          (patient) => patient.Condition == "UnderControl"
-        );
-        console.log(dangrousPatients);
+        // const patients = response.data.data;
+        // const stablePatients = patients.filter(
+        //   (patient) => patient.Condition === "Stable"
+        // );
+        // const dangrousPatients = patients.filter(
+        //   (patient) => patient.Condition === "Dangerous"
+        // );
+        // const underControlPatients = patients.filter(
+        //   (patient) => patient.Condition === "UnderControl"
+        // );
+        // console.log(dangrousPatients);
         setPatients([
           { name: "Dangerous", value: 4 },
           { name: "Under Control", value: 4 },

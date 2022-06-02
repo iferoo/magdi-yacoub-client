@@ -20,52 +20,36 @@ export default function YearAnalytics() {
   ]);
 
   useEffect(() => {
-    // axios
-    //   .get(roomUrl)
-    //   .then((response) => {
-    //     const rooms = response.data.data;
-    //     const beds = rooms.map((room) => room.Beds);
-
-    //     const freeBeds = beds.map((bed) => {
-    //       bed.map((item) => {
-    //         if (item.Patient != null) {
-    //           console.log(item);
-    //         }
-    //       });
-    //     });
-    //   })
-    //   .catch((error) => {});
-
     axios
       .get(bedUrl)
       .then((response) => {
-        const beds = response.data.data;
-        const freeBeds = beds.filter((bed) => bed.Patient == null);
-        const busyBeds = beds.filter((bed) => bed.Patient != null);
+        // const beds = response.data.data;
+        // const freeBeds = beds.filter((bed) => bed.Patient == null);
+        // const busyBeds = beds.filter((bed) => bed.Patient != null);
         setRooms([
-          { name: "Full", value: busyBeds.length },
-          { name: "Free", value: freeBeds.length },
+          { name: "Full", value: 40 },
+          { name: "Free", value: 20 },
         ]);
       })
       .catch((error) => {});
     axios
       .get(patientsUrl)
       .then((response) => {
-        const patients = response.data.data;
-        const stablePatients = patients.filter(
-          (patient) => patient.Condition == "Stable"
-        );
-        const dangrousPatients = patients.filter(
-          (patient) => patient.Condition == "Dangerous"
-        );
-        const underControlPatients = patients.filter(
-          (patient) => patient.Condition == "UnderControl"
-        );
-        console.log(dangrousPatients);
+        // const patients = response.data.data;
+        // const stablePatients = patients.filter(
+        //   (patient) => patient.Condition == "Stable"
+        // );
+        // const dangrousPatients = patients.filter(
+        //   (patient) => patient.Condition == "Dangerous"
+        // );
+        // const underControlPatients = patients.filter(
+        //   (patient) => patient.Condition == "UnderControl"
+        // );
+        // console.log(dangrousPatients);
         setPatients([
-          { name: "Dangerous", value: dangrousPatients.length },
-          { name: "Under Control", value: underControlPatients.length },
-          { name: "Stable", value: stablePatients.length },
+          { name: "Dangerous", value: 15 },
+          { name: "Under Control", value: 3 },
+          { name: "Stable", value: 12 },
         ]);
       })
       .catch((error) => {});

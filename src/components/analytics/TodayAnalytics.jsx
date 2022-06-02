@@ -20,28 +20,12 @@ export default function TodayAnalytics() {
   ]);
 
   useEffect(() => {
-    // axios
-    //   .get(roomUrl)
-    //   .then((response) => {
-    //     const rooms = response.data.data;
-    //     const beds = rooms.map((room) => room.Beds);
-
-    //     const freeBeds = beds.map((bed) => {
-    //       bed.map((item) => {
-    //         if (item.Patient != null) {
-    //           console.log(item);
-    //         }
-    //       });
-    //     });
-    //   })
-    //   .catch((error) => {});
-
     axios
       .get(bedUrl)
       .then((response) => {
         const beds = response.data.data;
-        const freeBeds = beds.filter((bed) => bed.Patient == null);
-        const busyBeds = beds.filter((bed) => bed.Patient != null);
+        const freeBeds = beds.filter((bed) => bed.Patient === null);
+        const busyBeds = beds.filter((bed) => bed.Patient !== null);
         setRooms([
           { name: "Full", value: busyBeds.length },
           { name: "Free", value: freeBeds.length },
@@ -53,13 +37,13 @@ export default function TodayAnalytics() {
       .then((response) => {
         const patients = response.data.data;
         const stablePatients = patients.filter(
-          (patient) => patient.Condition == "Stable"
+          (patient) => patient.Condition === "Stable"
         );
         const dangrousPatients = patients.filter(
-          (patient) => patient.Condition == "Dangerous"
+          (patient) => patient.Condition === "Dangerous"
         );
         const underControlPatients = patients.filter(
-          (patient) => patient.Condition == "UnderControl"
+          (patient) => patient.Condition === "UnderControl"
         );
         console.log(dangrousPatients);
         setPatients([

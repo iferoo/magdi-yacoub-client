@@ -46,7 +46,7 @@ export default function AddRooms() {
   const {
     register: bedRegister,
     handleSubmit: bedHandleSubmit,
-    setValue: bedSetValue,
+    // setValue: bedSetValue,
     // formState: { errors },
   } = useForm({
     defaultValues: {

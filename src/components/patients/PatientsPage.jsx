@@ -7,11 +7,11 @@ export default function PatientsPage() {
   const { pathname } = useLocation();
   const [activeLink, setActiveLink] = useState(1);
 
-  const handleActiveLink = () => {
-    pathname === "/patients/add" ? setActiveLink(2) : setActiveLink(1);
-  };
-
   useEffect(() => {
+    const handleActiveLink = () => {
+      pathname === "/patients/add" ? setActiveLink(2) : setActiveLink(1);
+    };
+
     handleActiveLink();
   }, [pathname]);
 

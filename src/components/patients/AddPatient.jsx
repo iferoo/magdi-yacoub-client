@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import styled from "styled-components";
 
@@ -201,6 +201,8 @@ export default function AddPatient() {
                         {bed.id}
                       </option>
                     );
+                  }else{
+                    return false;
                   }
                 })}
               </select>

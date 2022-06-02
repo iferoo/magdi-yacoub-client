@@ -8,17 +8,17 @@ export default function AnalyticsPage() {
 
   const [activeLink, setActiveLink] = useState(1);
 
-  const handleActiveLink = () => {
-    pathname === "/analytics/today"
-      ? setActiveLink(1)
-      : pathname === "/analytics/week"
-      ? setActiveLink(2)
-      : pathname === "/analytics/month"
-      ? setActiveLink(3)
-      : setActiveLink(4);
-  };
-
   useEffect(() => {
+    const handleActiveLink = () => {
+      pathname === "/analytics/today"
+        ? setActiveLink(1)
+        : pathname === "/analytics/week"
+        ? setActiveLink(2)
+        : pathname === "/analytics/month"
+        ? setActiveLink(3)
+        : setActiveLink(4);
+    };
+
     handleActiveLink();
   }, [pathname]);
 

@@ -39,9 +39,9 @@ export default function MonthAnalytics() {
     axios
       .get(bedUrl)
       .then((response) => {
-        const beds = response.data.data;
-        const freeBeds = beds.filter((bed) => bed.Patient == null);
-        const busyBeds = beds.filter((bed) => bed.Patient != null);
+        // const beds = response.data.data;
+        // const freeBeds = beds.filter((bed) => bed.Patient === null);
+        // const busyBeds = beds.filter((bed) => bed.Patient !== null);
         setRooms([
           { name: "Full", value: 6 },
           { name: "Free", value: 4 },
@@ -51,17 +51,17 @@ export default function MonthAnalytics() {
     axios
       .get(patientsUrl)
       .then((response) => {
-        const patients = response.data.data;
-        const stablePatients = patients.filter(
-          (patient) => patient.Condition == "Stable"
-        );
-        const dangrousPatients = patients.filter(
-          (patient) => patient.Condition == "Dangerous"
-        );
-        const underControlPatients = patients.filter(
-          (patient) => patient.Condition == "UnderControl"
-        );
-        console.log(dangrousPatients);
+        // const patients = response.data.data;
+        // const stablePatients = patients.filter(
+        //   (patient) => patient.Condition == "Stable"
+        // );
+        // const dangrousPatients = patients.filter(
+        //   (patient) => patient.Condition == "Dangerous"
+        // );
+        // const underControlPatients = patients.filter(
+        //   (patient) => patient.Condition == "UnderControl"
+        // );
+        // console.log(dangrousPatients);
         setPatients([
           { name: "Dangerous", value: 8 },
           { name: "Under Control", value: 1 },

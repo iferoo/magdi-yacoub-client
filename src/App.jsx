@@ -34,7 +34,7 @@ import YearAnalytics from "./components/analytics/YearAnalytics";
 
 export default function App() {
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     // const token = localStorage.getItem("isLogin");
     // console.log(localStorage.getItem("token"))

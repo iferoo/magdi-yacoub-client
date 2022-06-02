@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
-import { staff } from "../../util/staffData";
-
 import { doctorsUrl, nursesUrl } from "../../util/url";
 
 export default function ViewStaff() {

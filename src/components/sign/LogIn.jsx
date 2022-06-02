@@ -1,4 +1,4 @@
-import {React, useEffect} from "react";
+import { React, useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -6,11 +6,9 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { loginUrl } from "../../util/url";
 
-import { succNotify, errNotify } from "../../util/Notification";
+import { errNotify } from "../../util/Notification";
 
 import axios from "axios";
-
-import styled from "styled-components";
 
 export default function LogIn() {
   const navigate = useNavigate();

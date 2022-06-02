@@ -11,9 +11,8 @@ import { BiLogOut } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-import { logoutUrl } from "../util/url";
-
-import axios from "axios";
+// import { logoutUrl } from "../util/url";
+// import axios from "axios";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -148,6 +147,7 @@ const Section = styled.section`
         gap: 1rem;
         color: var(--black);
       }
+
       .active {
         background-color: var(--black);
         color: var(--white);
