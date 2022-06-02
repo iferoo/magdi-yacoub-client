@@ -63,6 +63,7 @@ const Section = styled.section`
         appearance: none;
         border-radius: 0.25rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        width: 100%;
       }
       .submit {
         cursor: pointer;
