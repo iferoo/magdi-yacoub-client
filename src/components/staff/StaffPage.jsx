@@ -78,6 +78,8 @@ const Section = styled.section`
       align-items: flex-start;
       align-content: flex-start;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
       div {
         display: flex;
         gap: 1rem;
@@ -102,9 +104,10 @@ const Section = styled.section`
 
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     margin-left: 0;
-
+    padding: 1rem;
     .container {
       .down {
+        padding: 0;
         .staffInfo {
           flex-direction: column;
           gap: 1rem;

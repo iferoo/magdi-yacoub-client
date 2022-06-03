@@ -10,7 +10,6 @@ import { doctorsUrl, nursesUrl } from "../../util/url";
 import axios from "axios";
 
 export default function AddStaff() {
-  
   const {
     register,
     handleSubmit,
@@ -215,5 +214,11 @@ const Section = styled.section`
   }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
+    .profile {
+      padding: 1rem;
+    }
+    .submit {
+      padding: 1rem;
+    }
   }
 `;

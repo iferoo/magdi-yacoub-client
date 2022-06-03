@@ -305,43 +305,14 @@ const Section = styled.section`
   }
 
   @media screen and (min-width: 720px) and (max-width: 1080px) {
-    flex-direction: column;
-    gap: 2rem;
-    .left {
-      width: 100%;
-    }
-    .right {
-      width: 100%;
-    }
   }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
-    .patientProfile {
-      flex-direction: column;
-      justify-content: center;
-      gap: 2rem;
-      img {
-        width: 50%;
-      }
-      .profile {
-        width: 100%;
-      }
+    .profile {
+      padding: 1rem;
     }
-    .patientInfo {
-      .Info {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 0.3rem;
-      }
-      .leftInfo {
-        width: 100%;
-        justify-content: center;
-      }
-      .rightInfo {
-        width: 100%;
-        justify-content: center;
-      }
+    .submit {
+      padding: 1rem;
     }
   }
 `;

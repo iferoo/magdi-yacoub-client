@@ -765,7 +765,7 @@ const Section = styled.section`
       input,
       button {
         width: 100%;
-        margin: 0.5rem auto;
+        margin: 0.25rem auto;
         cursor: pointer;
         color: #fff;
         text-align: center;
@@ -775,7 +775,7 @@ const Section = styled.section`
         transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
           border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         border: none;
-        border-radius: 0.2rem;
+        border-radius: 0.5rem;
         padding: 0.5rem;
         &:hover {
           color: #fff;
@@ -790,6 +790,8 @@ const Section = styled.section`
     .inputAlign {
       display: flex;
       align-items: center;
+      gap: 1rem;
+
       .Stable {
         color: green;
       }
@@ -831,9 +833,8 @@ const Section = styled.section`
       border-radius: 1rem;
     }
   }
-  @media screen and (min-width: 280px) and (max-width: 1080px) {
+  @media screen and (min-width: 720px) and (max-width: 1080px) {
     flex-direction: column;
-    gap: 2rem;
     .left {
       .result {
         height: 50vh;
@@ -853,10 +854,10 @@ const Section = styled.section`
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
     flex-direction: column;
-    gap: 2rem;
-
     .left {
-      width: 100%;
+      .result {
+        height: 50vh;
+      }
     }
 
     .right {
@@ -864,15 +865,19 @@ const Section = styled.section`
       .patientProfile {
         flex-direction: column;
         justify-content: center;
+        padding: 1rem;
         gap: 2rem;
         img {
-          width: 50%;
+          width: 30vh;
+          height: 30vh;
         }
         .profile {
           width: 100%;
         }
       }
       .patientInfo {
+        padding: 1rem;
+
         .Info {
           display: flex;
           flex-direction: column;
@@ -888,14 +893,14 @@ const Section = styled.section`
           justify-content: center;
         }
       }
-      .submit {
+      /* .submit {
         input,
         button {
-          border-radius: 0.5rem;
+          border-radius: 0.5rem !important; 
         }
-      }
+      } */
       .other {
-        padding: 1rem 3rem;
+        padding: 1rem;
         .info {
           display: flex;
           align-items: center;

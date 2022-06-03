@@ -75,9 +75,11 @@ const Section = styled.section`
       padding: 1rem;
       border-bottom: 1px solid #888888;
       display: flex;
+      flex-wrap: wrap;
       align-items: flex-start;
       align-content: flex-start;
       justify-content: space-between;
+      gap: 1rem;
       div {
         display: flex;
         gap: 1rem;
@@ -109,6 +111,7 @@ const Section = styled.section`
 
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     margin-left: 0;
+    padding: 1rem;
     .down {
       .rooms {
         .roomInfo {

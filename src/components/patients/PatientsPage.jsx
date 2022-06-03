@@ -90,14 +90,18 @@ const Section = styled.section`
 
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     margin-left: 0;
-    .down {
-      flex-direction: column;
-      gap: 2rem;
-      .left {
-        width: 100%;
-      }
-      .right {
-        width: 100%;
+    padding: 1rem;
+    .container {
+      .down {
+        padding: 1rem 0 0 0;
+        flex-direction: column;
+        gap: 2rem;
+        .left {
+          width: 100%;
+        }
+        .right {
+          width: 100%;
+        }
       }
     }
   }

@@ -477,6 +477,7 @@ const Section = styled.section`
   .inputAlign {
     display: flex;
     align-items: center;
+    gap: 1rem;
     label {
       width: 40%;
     }
@@ -504,6 +505,7 @@ const Section = styled.section`
       flex-direction: column;
       justify-content: center;
       gap: 2rem;
+      padding: 1rem;
       img {
         width: 50%;
       }
@@ -512,6 +514,7 @@ const Section = styled.section`
       }
     }
     .patientInfo {
+      padding: 1rem;
       .Info {
         display: flex;
         flex-direction: column;

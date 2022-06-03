@@ -230,12 +230,10 @@ const Section = styled.section`
 
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     margin-left: 0;
-    .down {
-      padding: 1rem 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      align-items: center;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    
   }
 `;

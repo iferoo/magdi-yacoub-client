@@ -109,6 +109,7 @@ const Section = styled.section`
   }
 
   @media screen and (min-width: 720px) and (max-width: 1080px) {
+    gap: 0rem;
   }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {

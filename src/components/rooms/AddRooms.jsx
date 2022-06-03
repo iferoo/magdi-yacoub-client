@@ -251,8 +251,26 @@ const Section = styled.section`
   }
 
   @media screen and (min-width: 720px) and (max-width: 1080px) {
+    form {
+      .profile {
+        padding: 1rem;
+        gap: 1rem;
+      }
+      .submit {
+        padding: 0 1rem;
+      }
+    }
   }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
+    form {
+      .profile {
+        padding: 1rem;
+        gap: 1rem;
+      }
+      .submit {
+        padding: 0 1rem;
+      }
+    }
   }
 `;
