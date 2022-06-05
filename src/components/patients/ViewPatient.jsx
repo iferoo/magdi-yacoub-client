@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-
-import styled from "styled-components";
+import {
+  bedUrl,
+  doctorsUrl,
+  nursesUrl,
+  patientsUrl,
+  roomUrl,
+  url,
+} from "../../util/url";
+import { errNotify, succNotify } from "../../util/Notification";
 
 import { BiSearch } from "react-icons/bi";
 import { IoMdArrowDropright } from "react-icons/io";
+import axios from "axios";
+import styled from "styled-components";
+import { useForm } from "react-hook-form";
 
 // import { patieents } from "../../util/patientsData";
 
-import axios from "axios";
-
-import {
-  patientsUrl,
-  roomUrl,
-  doctorsUrl,
-  nursesUrl,
-  bedUrl,
-  url,
-} from "../../util/url";
-
-import { succNotify, errNotify } from "../../util/Notification";
-
 export default function ViewPatient() {
   const [rooms, setRooms] = useState([]);
+  const [defaultBeds, setDefaultBeds] = useState([]);
   const [beds, setBeds] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [nurses, setNurses] = useState([]);
@@ -72,6 +69,7 @@ export default function ViewPatient() {
     axios
       .get(bedUrl)
       .then((response) => {
+        setDefaultBeds(response.data.data);
         setBeds(response.data.data);
       })
       .catch((error) => {});
@@ -302,7 +300,7 @@ export default function ViewPatient() {
               <div
                 className="info"
                 onClick={() => {
-                  // setBeds([...beds, patient.Bed]);
+                  setBeds(defaultBeds);
                   // console.log(beds)
                   // console.log(patient);
                   setActivePatient(patient.id);
@@ -370,12 +368,12 @@ export default function ViewPatient() {
                   id="room"
                   type="text"
                   placeholder=""
-                  disabled={true}
-                  // onClick={(event) => {
-                  //   setBeds(
-                  //     rooms.find((room) => room.id == event.target.value).Beds
-                  //   );
-                  // }}
+                  // disabled={true}
+                  onClick={(event) => {
+                    setBeds(
+                      rooms.find((room) => room.id == event.target.value).Beds
+                    );
+                  }}
                   {...register("patient.Room", {
                     required: true,
                   })}
@@ -402,6 +400,7 @@ export default function ViewPatient() {
                       <option
                         key={bed.id}
                         value={bed.id}
+                        hidden={bed.RoomID != getValues("patient.Room")}
                         disabled={
                           bed.Patient != null &&
                           bed.Patient.id != getValues("patient.id")

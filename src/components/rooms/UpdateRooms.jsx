@@ -1,15 +1,11 @@
+import { IoMdArrowDropdown, IoMdArrowDropright } from "react-icons/io";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-
-import styled from "styled-components";
-
-import { succNotify, errNotify } from "../../util/Notification";
-
 import { bedUrl, roomUrl } from "../../util/url";
-
-import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
+import { errNotify, succNotify } from "../../util/Notification";
 
 import axios from "axios";
+import styled from "styled-components";
+import { useForm } from "react-hook-form";
 
 export default function UpdateRooms() {
   const [rooms, setRooms] = useState([]);
@@ -32,6 +28,10 @@ export default function UpdateRooms() {
       })
       .catch((error) => {});
   }, []);
+
+  useEffect(() => {
+    console.log(beds);
+  }, [beds]);
 
   const {
     register,
@@ -227,9 +227,9 @@ export default function UpdateRooms() {
           <form onSubmit={bedHandleSubmit(onSubmitBed)}>
             <div className="profile">
               <div className="inputAlign">
-                <label htmlFor="bed">Room</label>
+                <label htmlFor="room">Room</label>
                 <select
-                  id="bed"
+                  id="room"
                   onClick={(event) => {
                     if (event.target.value != "none") {
                       setBeds(
@@ -252,7 +252,7 @@ export default function UpdateRooms() {
                 <select id="bed" {...bedRegister("bed.BedID", {})}>
                   <option value="none" style={{ display: "none" }}></option>
                   {beds.map((bed) => (
-                    <option key={bed.id} value={bed.id}>
+                    <option key={bed.id} value={bed.id} disabled={bed.Patient != null}>
                       {bed.id}
                     </option>
                   ))}
@@ -362,7 +362,7 @@ const Section = styled.section`
       }
     }
     .submit {
-      padding: 0 1rem;   
+      padding: 0 1rem;
     }
   }
 
@@ -374,7 +374,7 @@ const Section = styled.section`
       }
     }
     .submit {
-      padding: 0 1rem;   
+      padding: 0 1rem;
     }
   }
 `;
