@@ -20,6 +20,7 @@ import { useForm } from "react-hook-form";
 export default function ViewPatient() {
   const [rooms, setRooms] = useState([]);
   const [defaultBeds, setDefaultBeds] = useState([]);
+  const [refreshBeds, setRefreshBeds] = useState(true);
   const [beds, setBeds] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [nurses, setNurses] = useState([]);
@@ -77,12 +78,16 @@ export default function ViewPatient() {
 
   useEffect(() => {
     // console.log(rooms);
-    // console.log(beds);
+    console.log(beds);
     // console.log(doctors);
     // console.log(nurses);
     // console.log(patients);
   }, [rooms, beds, doctors, nurses, patients]);
 
+  useEffect(() => {
+    setBeds(defaultBeds)
+  }, [refreshBeds]);
+  
   useEffect(() => {
     const patientsFilterd = patients.filter((patient) => {
       return patient.Name.toLocaleLowerCase().includes(patientSearch);
@@ -370,9 +375,11 @@ export default function ViewPatient() {
                   placeholder=""
                   // disabled={true}
                   onClick={(event) => {
-                    setBeds(
-                      rooms.find((room) => room.id == event.target.value).Beds
-                    );
+                    // setBeds(
+                    //   rooms.find((room) => room.id == event.target.value).Beds
+                    // );
+                    setRefreshBeds(!refreshBeds)
+                    
                   }}
                   {...register("patient.Room", {
                     required: true,
