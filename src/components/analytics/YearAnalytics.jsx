@@ -55,7 +55,7 @@ export default function YearAnalytics() {
       .catch((error) => {});
   }, []);
 
-  const RCOLORS = ["#73777B", "#91C483"];
+  const RCOLORS = ["#888888", "green"];
   const PCOLORS = ["#ff2828", "#a1df3f", "#00C49F"];
 
   const RADIAN = Math.PI / 180;
@@ -203,10 +203,10 @@ const Section = styled.section`
           background-color: #a1df3f;
         }
         .Free {
-          background-color: #91c483;
+          background-color: green;
         }
         .Full {
-          background-color: #73777b;
+          background-color: #888888;
         }
       }
     }
