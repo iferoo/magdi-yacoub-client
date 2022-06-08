@@ -7,17 +7,49 @@ import { bedUrl, patientsUrl } from "../../util/url";
 
 import axios from "axios";
 
-export default function TodayAnalytics() {
-  const [rooms, setRooms] = useState([
-    { name: "Full", value: 0 },
-    { name: "Free", value: 0 },
-  ]);
+var rooms = [
+  { name: "Full", value: 0 },
+  { name: "Free", value: 0 },
+];
 
-  const [patients, setPatients] = useState([
-    { name: "Dangerous", value: 0 },
-    { name: "Under Control", value: 0 },
-    { name: "Stable", value: 0 },
-  ]);
+var patients = [
+  { name: "Dangerous", value: 0 },
+  { name: "Under Control", value: 0 },
+  { name: "Stable", value: 0 },
+];
+
+const RCOLORS = ["#888888", "green"];
+const PCOLORS = ["#ff2828", "#a1df3f", "#00C49F"];
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+}) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="central"
+    >
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
+export default function TodayAnalytics() {
+  const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
     axios
@@ -26,64 +58,37 @@ export default function TodayAnalytics() {
         const beds = response.data.data;
         const freeBeds = beds.filter((bed) => bed.Patient === null);
         const busyBeds = beds.filter((bed) => bed.Patient !== null);
-        setRooms([
+        rooms = [
           { name: "Full", value: busyBeds.length },
           { name: "Free", value: freeBeds.length },
-        ]);
+        ];
+        setTimeout(() => setRefreshPage(true), 2000);
       })
       .catch((error) => {});
     axios
       .get(patientsUrl)
       .then((response) => {
-        const patients = response.data.data;
-        const stablePatients = patients.filter(
+        const patientsList = response.data.data;
+        const stablePatients = patientsList.filter(
           (patient) => patient.Condition === "Stable"
         );
-        const dangrousPatients = patients.filter(
+        const dangrousPatients = patientsList.filter(
           (patient) => patient.Condition === "Dangerous"
         );
-        const underControlPatients = patients.filter(
+        const underControlPatients = patientsList.filter(
           (patient) => patient.Condition === "UnderControl"
         );
-        console.log(dangrousPatients);
-        setPatients([
+
+        patients = [
           { name: "Dangerous", value: dangrousPatients.length },
           { name: "Under Control", value: underControlPatients.length },
           { name: "Stable", value: stablePatients.length },
-        ]);
+        ];
+        setTimeout(() => setRefreshPage(true), 2000);
       })
       .catch((error) => {});
   }, []);
 
-  const RCOLORS = ["#888888", "green"];
-  const PCOLORS = ["#ff2828", "#a1df3f", "#00C49F"];
-
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-    index,
-  }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
   return (
     <Section>
       <div className="char">
@@ -218,6 +223,5 @@ const Section = styled.section`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    
   }
 `;

@@ -1,89 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { PieChart, Pie, Cell } from "recharts";
 
-import { bedUrl, patientsUrl } from "../../util/url";
+const rooms = [
+  { name: "Full", value: 6 },
+  { name: "Free", value: 4 },
+];
 
-import axios from "axios";
+const patients = [
+  { name: "Dangerous", value: 8 },
+  { name: "Under Control", value: 1 },
+  { name: "Stable", value: 3 },
+];
 
+const RCOLORS = ["#888888", "green"];
+const PCOLORS = ["#ff2828", "#a1df3f", "#00C49F"];
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+}) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="central"
+    >
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
 export default function WeekAnalytics() {
-  const [rooms, setRooms] = useState([
-    { name: "Full", value: 0 },
-    { name: "Free", value: 0 },
-  ]);
-
-  const [patients, setPatients] = useState([
-    { name: "Dangerous", value: 0 },
-    { name: "Under Control", value: 0 },
-    { name: "Stable", value: 0 },
-  ]);
-
-  useEffect(() => {
-    axios
-      .get(bedUrl)
-      .then((response) => {
-        // const beds = response.data.data;
-        // const freeBeds = beds.filter((bed) => bed.Patient == null);
-        // const busyBeds = beds.filter((bed) => bed.Patient != null);
-        setRooms([
-          { name: "Full", value: 8 },
-          { name: "Free", value: 2 },
-        ]);
-      })
-      .catch((error) => {});
-    axios
-      .get(patientsUrl)
-      .then((response) => {
-        // const patients = response.data.data;
-        // const stablePatients = patients.filter(
-        //   (patient) => patient.Condition === "Stable"
-        // );
-        // const dangrousPatients = patients.filter(
-        //   (patient) => patient.Condition === "Dangerous"
-        // );
-        // const underControlPatients = patients.filter(
-        //   (patient) => patient.Condition === "UnderControl"
-        // );
-        // console.log(dangrousPatients);
-        setPatients([
-          { name: "Dangerous", value: 4 },
-          { name: "Under Control", value: 4 },
-          { name: "Stable", value: 4 },
-        ]);
-      })
-      .catch((error) => {});
-  }, []);
-
-  const RCOLORS = ["#888888", "green"];
-  const PCOLORS = ["#ff2828", "#a1df3f", "#00C49F"];
-
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-    index,
-  }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
   return (
     <Section>
       <div className="char">
@@ -218,6 +178,5 @@ const Section = styled.section`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    
   }
 `;
