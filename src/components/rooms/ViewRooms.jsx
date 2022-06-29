@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
-import { BiBed } from "react-icons/bi";
+import { IoMdArrowDropright, IoMdArrowDropdown } from 'react-icons/io';
+import { BiBed } from 'react-icons/bi';
+import { IoMdAddCircle } from 'react-icons/io';
+import styled from 'styled-components';
 
-import styled from "styled-components";
+import { roomUrl, bedUrl } from '../../util/url';
 
-import { roomUrl } from "../../util/url";
+import { succNotify, errNotify } from '../../util/Notification';
 
-import axios from "axios";
+import axios from 'axios';
 
 export default function ViewRooms() {
   const [rooms, setRooms] = useState([]);
@@ -15,50 +17,75 @@ export default function ViewRooms() {
   useEffect(() => {
     axios
       .get(roomUrl)
-      .then((response) => {
+      .then(response => {
         console.log(response.data.data);
         setRooms(response.data.data);
       })
-      .catch((error) => {});
+      .catch(error => {});
   }, []);
 
-  const roomToggle = (id) => {
-    document.querySelectorAll(`#${id}`).forEach((element) => {
-      element.classList.toggle("hide");
+  const roomToggle = id => {
+    document.querySelectorAll(`#${id}`).forEach(element => {
+      element.classList.toggle('hide');
     });
   };
 
+  const onSubmitBed = roomID => {
+    console.log(roomID);
+    axios
+      .post(bedUrl, {
+        Patient: null,
+        RoomID: roomID,
+      })
+      .then(function (response) {
+        console.log(response);
+        const selectedRoom = rooms.find(room => room.id == roomID);
+        selectedRoom.Beds = [...selectedRoom.Beds, response.data.data];
+
+        const roomIndex = rooms.findIndex(room => room.id == roomID);
+        const newRoom = rooms;
+        newRoom[roomIndex] = selectedRoom;
+        console.log(newRoom);
+        setRooms([...newRoom]);
+        succNotify('Bed Add Successfully');
+      })
+      .catch(function (error) {
+        console.log(error);
+        errNotify('error!');
+      });
+  };
   return (
     <Section>
-      {rooms.map((room) => (
+      {rooms.map(room => (
         <div className="rooms" key={room.id}>
           <div className="address">
-            <h3 className="name">{room.Name} </h3>
+            <h3 className="name">{room.Name}</h3>
             <IoMdArrowDropdown
-              id={"R" + room.id}
+              id={'R' + room.id}
               className="hide"
               onClick={() => {
-                roomToggle("R" + room.id);
+                roomToggle('R' + room.id);
               }}
             />
             <IoMdArrowDropright
-              id={"R" + room.id}
+              id={'R' + room.id}
               onClick={() => {
-                roomToggle("R" + room.id);
+                roomToggle('R' + room.id);
               }}
             />
           </div>
-          <div id={"R" + room.id} className={`roomInfo hide`} key={room.id}>
-            {room.Beds.map((bed) => (
+          <div id={'R' + room.id} className={`roomInfo hide`} key={room.id}>
+            {room.Beds.map(bed => (
               <div
                 key={bed.id}
-                className={`beds ${bed.Patient == null ? "free" : "full"}`}
+                className={`beds ${bed.Patient == null ? 'free' : 'full'}`}
               >
-                <p>{bed.Patient ? bed.Patient.Name : "--"}</p>
+                <p>{bed.Patient ? bed.Patient.Name : '--'}</p>
                 <BiBed />
-                <p>{bed.Patient == null ? "free" : "full"}</p>
+                <p>{bed.Patient == null ? 'free' : 'full'}</p>
               </div>
             ))}
+            <IoMdAddCircle id="add" onClick={() => onSubmitBed(room.id)} />
           </div>
         </div>
       ))}
@@ -85,6 +112,7 @@ const Section = styled.section`
       width: 90%;
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 1.5rem;
       margin: 0 auto;
       .beds {
@@ -95,6 +123,9 @@ const Section = styled.section`
         svg {
           font-size: 4rem;
         }
+      }
+      #add {
+        font-size: 2rem;
       }
       .free {
         color: green;
