@@ -127,6 +127,9 @@ const Section = styled.section`
       #add {
         font-size: 2rem;
       }
+      #add:active {
+        animation: press 0.2s 1 linear;
+      }
       .free {
         color: green;
       }
@@ -136,6 +139,17 @@ const Section = styled.section`
     }
     .hide {
       display: none;
+    }
+    @keyframes press {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(0.5);
+      }
+      to {
+        transform: scale(1);
+      }
     }
   }
 
